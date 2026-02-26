@@ -29,7 +29,19 @@ claude-forge/
 - Plugin marketplace configuration
 
 ### mcp.json
-- MCP server connections (Notion, etc.)
+- MCP server connections (Notion, GitHub, etc.)
+
+### GitHub MCP Setup
+
+Add GitHub tokens to your `~/.zshrc`:
+
+```bash
+# GitHub MCP tokens
+export GITHUB_TOKEN_PERSONAL="ghp_your_personal_token"
+export GITHUB_TOKEN_MICROSOFT="ghp_your_microsoft_token"
+```
+
+Then run `source ~/.zshrc` to apply.
 
 ## Usage
 
