@@ -3,6 +3,22 @@
     "notion": {
       "type": "http",
       "url": "https://mcp.notion.com/mcp"
+    },
+    "github-personal": {
+      "command": "npx",
+      "args": ["-y", "--registry", "https://registry.npmjs.org", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN_PERSONAL}"
+      },
+      "description": "GitHub - Personal account"
+    },
+    "github-microsoft": {
+      "command": "npx",
+      "args": ["-y", "--registry", "https://registry.npmjs.org", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN_MICROSOFT}"
+      },
+      "description": "GitHub - Microsoft account"
     }
   }
 }
