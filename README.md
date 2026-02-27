@@ -82,7 +82,21 @@ bun run setup
 
 Interactively select and clone repos to `~/.claude/workspace/repos/`.
 
-### Step 6: Restart Claude Code
+### Step 6: Install Skills (Optional)
+
+Skills extend Claude Code with specialized workflows and knowledge.
+
+```bash
+# Install skill-creator - for creating new skills
+npx skills add anthropics/skills@skill-creator -g -y
+
+# Install find-skills - for discovering available skills
+npx skills add vercel-labs/skills@find-skills -g -y
+```
+
+Skills are installed to `~/.agents/skills/` and symlinked to `~/.claude/skills/`.
+
+### Step 7: Restart Claude Code
 
 Done! 🎉
 
