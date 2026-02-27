@@ -82,23 +82,14 @@ bun run setup
 
 Interactively select and clone repos to `~/.claude/workspace/repos/`.
 
-### Step 6: Install Skills (Optional)
-
-Skills extend Claude Code with specialized workflows and knowledge.
-
-```bash
-# Install skill-creator - for creating new skills
-npx skills add anthropics/skills@skill-creator -g -y
-
-# Install find-skills - for discovering available skills
-npx skills add vercel-labs/skills@find-skills -g -y
-```
-
-Skills are installed to `~/.agents/skills/` and symlinked to `~/.claude/skills/`.
-
-### Step 7: Restart Claude Code
+### Step 6: Restart Claude Code
 
 Done! 🎉
+
+The installer automatically sets up:
+- `settings.json` - Claude Code configuration
+- `.mcp.json` - MCP server connections
+- Skills (`skill-creator`, `find-skills`) - pre-installed to `~/.claude/skills/`
 
 ---
 
@@ -111,6 +102,9 @@ claude-me/
 │   ├── settings.json            # Claude Code settings
 │   ├── mcp.json                 # MCP server configuration
 │   └── workspace.json           # Workspace configuration
+├── skills/                      # Pre-configured skills
+│   ├── skill-creator/           # For creating new skills
+│   └── find-skills/             # For discovering skills
 ├── scripts/
 │   ├── install.sh               # Install configuration
 │   └── setup-workspace.sh       # Interactive workspace setup
