@@ -57,12 +57,12 @@ gh auth status
 Add to `~/.zshrc`:
 
 ```bash
-# GitHub MCP tokens (create at https://github.com/settings/tokens)
-export GITHUB_TOKEN_PERSONAL="ghp_your_personal_token"
-export GITHUB_TOKEN_MICROSOFT="ghp_your_microsoft_token"
-
-# (Add other tokens here as needed)
+# GitHub MCP tokens
+export GITHUB_TOKEN_PERSONAL=""  # Optional: create at https://github.com/settings/tokens
+export GITHUB_TOKEN_MICROSOFT=$(gh auth token)  # Dynamically get OAuth token from gh CLI
 ```
+
+> **Note**: Using `$(gh auth token)` is recommended for `infinity-microsoft` org access, as it returns an OAuth token (`gho_*`) that bypasses the organization's classic PAT restrictions.
 
 Then `source ~/.zshrc`.
 
@@ -264,7 +264,20 @@ Please use a GitHub App, OAuth App, or a personal access token with fine-grained
 
 **Cause**: The `infinity-microsoft` organization has disabled classic PAT (`ghp_*`) access for security reasons.
 
-**Workaround**: Use `gh` CLI instead of MCP for `infinity-microsoft` repos:
+**Solution**: Use `gh auth token` to dynamically get an OAuth token:
+
+```bash
+# In ~/.zshrc
+export GITHUB_TOKEN_MICROSOFT=$(gh auth token)
+```
+
+This returns an OAuth token (`gho_*`) that is allowed by the organization. After updating, run:
+```bash
+source ~/.zshrc
+# Restart Claude Code
+```
+
+**Alternative - Use `gh` CLI directly** for `infinity-microsoft` repos:
 ```bash
 # Switch to Microsoft account
 gh auth switch --user shuyumao_microsoft
@@ -276,7 +289,11 @@ gh pr merge 123 --repo infinity-microsoft/picasso --squash
 gh repo list infinity-microsoft
 ```
 
-**Potential Solutions**:
-- [ ] Create fine-grained PAT (but max 7 days validity)
-- [ ] Create GitHub App for long-term access
-- [ ] Ask org admin to whitelist classic PAT
+### GitHub Token Types Reference
+
+| Prefix | Type | Usage | `infinity-microsoft` Access |
+|--------|------|-------|----------------------------|
+| `ghp_*` | Classic PAT | Manual creation | ❌ Blocked by org policy |
+| `github_pat_*` | Fine-grained PAT | Manual creation | ✅ If configured correctly |
+| `gho_*` | OAuth App Token | `gh auth token` | ✅ Recommended |
+| `ghu_*` | User-to-Server Token | GitHub App (e.g., Copilot) | ⚠️ Limited scopes |
