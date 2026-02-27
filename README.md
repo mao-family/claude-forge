@@ -86,10 +86,13 @@ Interactively select and clone repos to `~/.claude/workspace/repos/`.
 
 Done! 🎉
 
-The installer automatically sets up:
-- `settings.json` - Claude Code configuration
-- `.mcp.json` - MCP server connections
-- Skills (`skill-creator`, `find-skills`) - pre-installed to `~/.claude/skills/`
+The installer sets up `settings.json` which enables these plugins (auto-downloaded on first run):
+
+| Plugin | Marketplace | Description |
+|--------|-------------|-------------|
+| `superpowers` | `superpowers-marketplace` | TDD, debugging, collaboration patterns |
+| `example-skills` | `anthropic-agent-skills` | skill-creator, mcp-builder, frontend-design, etc. |
+| `claude-me` | `claude-me` | find-skills + your custom skills |
 
 ---
 
@@ -97,13 +100,13 @@ The installer automatically sets up:
 
 ```
 claude-me/
-├── .claude-plugin/plugin.json   # Plugin metadata
+├── .claude-plugin/
+│   └── marketplace.json         # Plugin marketplace definition
 ├── config/
-│   ├── settings.json            # Claude Code settings
+│   ├── settings.json            # Claude Code settings + enabled plugins
 │   ├── mcp.json                 # MCP server configuration
 │   └── workspace.json           # Workspace configuration
-├── skills/                      # Pre-configured skills
-│   ├── skill-creator/           # For creating new skills
+├── skills/                      # Custom skills (included in claude-me plugin)
 │   └── find-skills/             # For discovering skills
 ├── scripts/
 │   ├── install.sh               # Install configuration

@@ -38,22 +38,11 @@ if [ -f "$ROOT_DIR/hooks/hooks.json" ]; then
     echo "✅ Installed hooks.json"
 fi
 
-# Install skills
-if [ -d "$ROOT_DIR/skills" ]; then
-    mkdir -p "$CLAUDE_DIR/skills"
-    for skill in "$ROOT_DIR/skills"/*; do
-        if [ -d "$skill" ]; then
-            skill_name=$(basename "$skill")
-            rm -rf "$CLAUDE_DIR/skills/$skill_name"
-            cp -r "$skill" "$CLAUDE_DIR/skills/$skill_name"
-            echo "✅ Installed skill: $skill_name"
-        fi
-    done
-fi
-
 echo ""
 echo "🎉 Claude Me installation complete!"
 echo "   Restart Claude Code to apply changes."
 echo ""
-echo "💡 To setup workspace repos, run:"
-echo "   bun run setup"
+echo "📦 Plugins will be auto-installed on first run:"
+echo "   - superpowers (TDD, debugging, collaboration)"
+echo "   - example-skills (skill-creator, mcp-builder, etc.)"
+echo "   - claude-me (find-skills, custom skills)"
