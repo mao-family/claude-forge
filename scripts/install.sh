@@ -6,6 +6,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 CLAUDE_DIR="$HOME/.claude"
 
 echo "🔧 Claude Forge - Installing configuration..."
@@ -25,18 +26,21 @@ if [ -f "$HOME/.mcp.json" ]; then
 fi
 
 # Install configurations
-cp "$SCRIPT_DIR/config/settings.json" "$CLAUDE_DIR/settings.json"
+cp "$ROOT_DIR/config/settings.json" "$CLAUDE_DIR/settings.json"
 echo "✅ Installed settings.json"
 
-cp "$SCRIPT_DIR/config/mcp.json" "$HOME/.mcp.json"
+cp "$ROOT_DIR/config/mcp.json" "$HOME/.mcp.json"
 echo "✅ Installed .mcp.json"
 
 # Copy hooks if exists
-if [ -f "$SCRIPT_DIR/hooks/hooks.json" ]; then
-    cp "$SCRIPT_DIR/hooks/hooks.json" "$CLAUDE_DIR/hooks.json"
+if [ -f "$ROOT_DIR/hooks/hooks.json" ]; then
+    cp "$ROOT_DIR/hooks/hooks.json" "$CLAUDE_DIR/hooks.json"
     echo "✅ Installed hooks.json"
 fi
 
 echo ""
 echo "🎉 Claude Forge installation complete!"
 echo "   Restart Claude Code to apply changes."
+echo ""
+echo "💡 To setup workspace repos, run:"
+echo "   bun run setup"

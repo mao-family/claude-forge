@@ -1,0 +1,14 @@
+{
+  "path": "~/.claude/workspace",
+  "repos_path": "~/.claude/workspace/repos",
+  "organizations": {
+    "infinity-microsoft": {
+      "gh_account": "shuyumao_microsoft",
+      "repos": []
+    },
+    "mao-family": {
+      "gh_account": "maoshuyu",
+      "repos": []
+    }
+  }
+}
