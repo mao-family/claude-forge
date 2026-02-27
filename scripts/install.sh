@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Claude Forge - Configuration Installer
+# Claude Me - Configuration Installer
 # Syncs Claude Code configuration to ~/.claude and ~/.mcp.json
 
 set -e
@@ -9,7 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 CLAUDE_DIR="$HOME/.claude"
 
-echo "🔧 Claude Forge - Installing configuration..."
+echo "🔧 Claude Me - Installing configuration..."
 
 # Create .claude directory if not exists
 mkdir -p "$CLAUDE_DIR"
@@ -39,7 +39,7 @@ if [ -f "$ROOT_DIR/hooks/hooks.json" ]; then
 fi
 
 echo ""
-echo "🎉 Claude Forge installation complete!"
+echo "🎉 Claude Me installation complete!"
 echo "   Restart Claude Code to apply changes."
 echo ""
 echo "💡 To setup workspace repos, run:"

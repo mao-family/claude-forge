@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Claude Forge - Workspace Setup Script
+# Claude Me - Workspace Setup Script
 # Interactively select and clone repos to ~/.claude/workspace/repos
 
 set -e
@@ -15,7 +15,7 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo -e "${BLUE}🔧 Claude Forge - Workspace Setup${NC}"
+echo -e "${BLUE}🔧 Claude Me - Workspace Setup${NC}"
 echo ""
 
 # Check if gh is installed

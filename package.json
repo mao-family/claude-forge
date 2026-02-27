@@ -1,7 +1,7 @@
 {
-  "name": "claude-forge",
+  "name": "claude-me",
   "version": "1.0.0",
-  "description": "Personal Claude Code configuration repository",
+  "description": "Your personal AI digital worker / AI clone powered by Claude Code",
   "scripts": {
     "install": "./scripts/install.sh",
     "setup": "./scripts/setup-workspace.sh"
