@@ -6,7 +6,11 @@ Your personal AI digital worker / AI clone powered by Claude Code.
 
 ### Step 1: Prerequisites
 
-**Install Homebrew** (macOS):
+**Requirements:**
+- macOS with **zsh** (default shell on macOS 10.15+)
+- **Homebrew** - package manager
+
+**Install Homebrew** (if not installed):
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
