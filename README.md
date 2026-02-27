@@ -1,6 +1,6 @@
-# Claude Forge
+# Claude Me
 
-Personal Claude Code configuration repository.
+Your personal AI digital worker / AI clone powered by Claude Code.
 
 ## Quick Start
 
@@ -69,8 +69,8 @@ Then `source ~/.zshrc`.
 ### Step 4: Install
 
 ```bash
-git clone https://github.com/mao-family/claude-forge.git
-cd claude-forge
+git clone https://github.com/mao-family/claude-me.git
+cd claude-me
 bun run install
 ```
 
@@ -91,7 +91,7 @@ Done! 🎉
 ## Structure
 
 ```
-claude-forge/
+claude-me/
 ├── .claude-plugin/plugin.json   # Plugin metadata
 ├── config/
 │   ├── settings.json            # Claude Code settings
@@ -122,7 +122,7 @@ claude-forge/
     │   ├── picasso/
     │   └── studio/
     └── mao-family/
-        └── claude-forge/
+        └── claude-me/
 ```
 
 ## Updating
