@@ -41,6 +41,9 @@ if [ -d "$CLAUDE_DIR" ]; then
         cp -rn "$TEMP_DIR/references" "$CLAUDE_DIR/" 2>/dev/null || true
         cp -rn "$TEMP_DIR/workspace" "$CLAUDE_DIR/" 2>/dev/null || true
         cp -n "$TEMP_DIR/.gitignore" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -n "$TEMP_DIR/README.md" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -n "$TEMP_DIR/package.json" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -rn "$TEMP_DIR/scripts" "$CLAUDE_DIR/" 2>/dev/null || true
 
         # Cleanup
         rm -rf "$TEMP_DIR"
