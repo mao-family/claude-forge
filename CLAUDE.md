@@ -3,6 +3,7 @@
 Personal AI digital worker / AI clone powered by Claude Code.
 
 **Repository:** https://github.com/mao-family/claude-me
+
 **Runtime:** Symlinks (`~/.claude/`, `~/.mcp.json`) + Plugin (`claude-me@claude-me-marketplace`)
 
 ## Core Principles
