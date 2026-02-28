@@ -46,7 +46,7 @@ export GITHUB_TOKEN_WORK=$(gh auth token)
 
 Restart Claude Code. Done! 🎉
 
-## Updating
+### Updating
 
 ```bash
 cd ~/Repos/claude-me
