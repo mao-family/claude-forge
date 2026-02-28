@@ -26,33 +26,38 @@ When on `feature/{name}` branch:
 ## Directory Structure
 
 ### Repository
+```
 https://github.com/mao-family/claude-me
-
-### claude-me
-- `.claude-plugin/` - Plugin metadata
-- `skills/` - Workflow guides
-- `agents/` - Specialized sub-agents
-- `hooks/` - Automation hooks
-- `rules/` - Coding standards
-- `references/` - External knowledge docs
-- `scripts/` - Installation and utility scripts
-- `memory-bank/` - claude-me project knowledge
-- `CLAUDE.md` - Global instructions (symlinked to ~/.claude/)
-- `mcp.json` - MCP server config (symlinked to ~/.mcp.json)
-- `settings.json` - Claude Code settings (symlinked to ~/.claude/)
-
-### Child Projects
-- `workspace/repos/{project}/` - Git repositories (child projects)
-- `workspace/memory-bank/{project}/` - Child project knowledge
+~/Repos/claude-me/
+├── .claude-plugin/          # Plugin metadata
+├── skills/                  # Workflow guides
+├── agents/                  # Specialized sub-agents
+├── hooks/                   # Automation hooks
+├── rules/                   # Coding standards
+├── references/              # External knowledge docs
+├── scripts/                 # Installation and utility scripts
+├── memory-bank/             # claude-me project knowledge
+├── workspace/
+│   ├── repos/{project}/     # Child project repositories
+│   └── memory-bank/{project}/ # Child project knowledge
+├── CLAUDE.md                # Global instructions
+├── mcp.json                 # MCP server config
+└── settings.json            # Claude Code settings
+```
 
 ### Runtime
-- `~/.claude/CLAUDE.md` → `CLAUDE.md`
-- `~/.claude/settings.json` → `settings.json`
-- `~/.claude/rules/` → `rules/`
-- `~/.claude/workspace/` → `workspace/`
-- `~/.claude/memory-bank/` → `memory-bank/`
-- `~/.mcp.json` → `mcp.json`
-- `~/.claude/plugins/` - Plugin loaded: `claude-me@claude-me-marketplace`
+```
+~/.claude/
+├── CLAUDE.md → claude-me
+├── settings.json → claude-me
+├── rules/ → claude-me
+├── workspace/ → claude-me
+├── memory-bank/ → claude-me
+├── settings.local.json      # Local secrets (not in repo)
+└── plugins/                 # Plugin: claude-me@claude-me-marketplace
+
+~/.mcp.json → claude-me/mcp.json
+```
 
 ## Commands
 
