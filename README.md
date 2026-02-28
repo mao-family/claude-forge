@@ -46,28 +46,3 @@ claude plugin marketplace update claude-me-marketplace
 ```
 
 Restart Claude Code. Done! 🎉
-
-### Updating
-
-```bash
-cd ~/Repos/claude-me
-git pull
-claude plugin marketplace update claude-me-marketplace
-# Restart Claude Code
-```
-
-## Known Issues
-
-### GitHub MCP cannot access organization repos
-
-Some organizations block classic PAT (`ghp_*`). Use OAuth token instead:
-
-```bash
-export GITHUB_TOKEN_WORK=$(gh auth token)  # Returns gho_* token
-```
-
-| Prefix | Type | Org Access |
-|--------|------|------------|
-| `ghp_*` | Classic PAT | ❌ Often blocked |
-| `github_pat_*` | Fine-grained PAT | ✅ If configured |
-| `gho_*` | OAuth Token | ✅ Recommended |
