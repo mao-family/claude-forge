@@ -59,6 +59,7 @@ Restart Claude Code. Done! 🎉
 ```bash
 cd ~/Repos/claude-me
 git pull
+claude plugin marketplace update claude-me-marketplace
 # Restart Claude Code
 ```
 
