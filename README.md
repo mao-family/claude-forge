@@ -42,6 +42,7 @@ export GITHUB_TOKEN_WORK=$(gh auth token)
 git clone https://github.com/mao-family/claude-me.git ~/Repos/claude-me
 cd ~/Repos/claude-me
 ./scripts/install.sh
+claude plugin marketplace update claude-me-marketplace
 ```
 
 Restart Claude Code. Done! 🎉
