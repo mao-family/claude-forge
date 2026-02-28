@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "Your personal AI digital worker / AI clone powered by Claude Code",
   "scripts": {
-    "setup": "./scripts/install.sh"
+    "install": "./scripts/install.sh"
   }
 }

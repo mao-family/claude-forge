@@ -41,7 +41,7 @@ export GITHUB_TOKEN_WORK=$(gh auth token)
 ```bash
 git clone https://github.com/mao-family/claude-me.git ~/Repos/claude-me
 cd ~/Repos/claude-me
-bun run setup
+bun run install
 claude plugin marketplace update claude-me-marketplace
 ```
 
