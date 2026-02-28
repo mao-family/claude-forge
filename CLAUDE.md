@@ -15,7 +15,7 @@ Personal AI digital worker / AI clone powered by Claude Code.
 
 ## Knowledge Locations
 
-### claude-me (this project)
+### claude-me
 - `CLAUDE.md` - Global instructions (auto-loaded by Claude Code)
 - `memory-bank/` - claude-me project knowledge
 
@@ -28,7 +28,7 @@ When on `feature/{name}` branch:
 
 ## Directory Structure
 
-### claude-me (parent project)
+### claude-me
 - `.claude-plugin/` - Plugin metadata
 - `skills/` - Workflow guides
 - `agents/` - Specialized sub-agents
