@@ -2,10 +2,6 @@
 
 Personal AI digital worker / AI clone powered by Claude Code.
 
-**Repository:** https://github.com/mao-family/claude-me
-
-**Runtime:** Symlinks (`~/.claude/`, `~/.mcp.json`) + Plugin (`claude-me@claude-me-marketplace`)
-
 ## Core Principles
 
 1. **Human Plans, AI Executes** - You plan, I execute
@@ -28,6 +24,9 @@ When on `feature/{name}` branch:
 → Read `workspace/memory-bank/{project}/features/{name}/*.md`
 
 ## Directory Structure
+
+### Repository
+https://github.com/mao-family/claude-me
 
 ### claude-me
 - `.claude-plugin/` - Plugin metadata
