@@ -5,7 +5,17 @@ description: Guide for creating or updating CLAUDE.md files. Use this skill when
 
 # Writing CLAUDE.md
 
-CLAUDE.md is the global instruction file for Claude Code, auto-loaded at the start of every session. It defines how Claude should work with your project.
+CLAUDE.md is the instruction file for Claude Code. There are two types:
+
+1. **Global CLAUDE.md** (`~/.claude/CLAUDE.md`) - auto-loaded on every session
+2. **Project CLAUDE.md** (`memory-bank/{project}/CLAUDE.md`) - read when working on that project
+
+## File Locations
+
+| Type | Location | When Loaded |
+|------|----------|-------------|
+| Global | `~/.claude/CLAUDE.md` (symlink to `~/Repos/claude-me/CLAUDE.md`) | Every session |
+| Child Project | `workspace/memory-bank/{project}/CLAUDE.md` | When in `workspace/repos/{project}/` |
 
 ## When to Create CLAUDE.md
 
