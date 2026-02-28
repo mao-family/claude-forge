@@ -35,7 +35,8 @@
   },
   "enabledPlugins": {
     "superpowers@superpowers-marketplace": true,
-    "example-skills@anthropic-agent-skills": true
+    "example-skills@anthropic-agent-skills": true,
+    "claude-me@claude-me-marketplace": true
   },
   "skipDangerousModePermissionPrompt": true
 }
