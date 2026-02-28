@@ -36,7 +36,7 @@ if [ -d "$CLAUDE_DIR" ]; then
         cp -n "$TEMP_DIR/mcp.json" "$CLAUDE_DIR/" 2>/dev/null || true
         cp -rn "$TEMP_DIR/skills" "$CLAUDE_DIR/" 2>/dev/null || true
         cp -rn "$TEMP_DIR/agents" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -rn "$TEMP_DIR/hooks" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -n "$TEMP_DIR/hooks.json" "$CLAUDE_DIR/" 2>/dev/null || true
         cp -rn "$TEMP_DIR/rules" "$CLAUDE_DIR/" 2>/dev/null || true
         cp -rn "$TEMP_DIR/references" "$CLAUDE_DIR/" 2>/dev/null || true
         cp -rn "$TEMP_DIR/workspace" "$CLAUDE_DIR/" 2>/dev/null || true

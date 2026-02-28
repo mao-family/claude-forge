@@ -16,7 +16,6 @@ todos/
 
 # Claude Code data files
 history.jsonl
-hooks.json
 mcp-needs-auth-cache.json
 settings.json.backup
 stats-cache.json
