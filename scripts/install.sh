@@ -1,48 +1,73 @@
 #!/bin/bash
 
-# Claude Me - Configuration Installer
-# Syncs Claude Code configuration to ~/.claude and ~/.mcp.json
+# Claude Me - Installation Script
+# Clones claude-me to ~/.claude/ (or updates if exists)
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 CLAUDE_DIR="$HOME/.claude"
+REPO_URL="https://github.com/mao-family/claude-me.git"
 
-echo "🔧 Claude Me - Installing configuration..."
+echo "🔧 Claude Me - Installing..."
 
-# Create .claude directory if not exists
-mkdir -p "$CLAUDE_DIR"
+# Check if ~/.claude exists
+if [ -d "$CLAUDE_DIR" ]; then
+    # Check if it's already a git repo (claude-me)
+    if [ -d "$CLAUDE_DIR/.git" ]; then
+        echo "📦 Updating existing claude-me installation..."
+        cd "$CLAUDE_DIR"
+        git pull
+        echo "✅ Updated claude-me"
+    else
+        # Existing Claude Code directory, need to merge
+        echo "📦 Found existing ~/.claude directory"
+        echo "   Backing up and merging with claude-me..."
 
-# Backup existing configs
-if [ -f "$CLAUDE_DIR/settings.json" ]; then
-    cp "$CLAUDE_DIR/settings.json" "$CLAUDE_DIR/settings.json.backup"
-    echo "📦 Backed up existing settings.json"
+        # Create temp directory for clone
+        TEMP_DIR=$(mktemp -d)
+        git clone "$REPO_URL" "$TEMP_DIR"
+
+        # Move .git to ~/.claude
+        mv "$TEMP_DIR/.git" "$CLAUDE_DIR/.git"
+
+        # Copy new files (don't overwrite existing)
+        cp -n "$TEMP_DIR/CLAUDE.md" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -n "$TEMP_DIR/settings.json" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -n "$TEMP_DIR/mcp.json" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -rn "$TEMP_DIR/skills" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -rn "$TEMP_DIR/agents" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -rn "$TEMP_DIR/hooks" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -rn "$TEMP_DIR/rules" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -rn "$TEMP_DIR/references" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -rn "$TEMP_DIR/workspace" "$CLAUDE_DIR/" 2>/dev/null || true
+        cp -n "$TEMP_DIR/.gitignore" "$CLAUDE_DIR/" 2>/dev/null || true
+
+        # Cleanup
+        rm -rf "$TEMP_DIR"
+
+        echo "✅ Merged claude-me with existing ~/.claude"
+    fi
+else
+    # Fresh install
+    echo "📦 Fresh installation..."
+    git clone "$REPO_URL" "$CLAUDE_DIR"
+    echo "✅ Cloned claude-me to ~/.claude"
 fi
 
-if [ -f "$HOME/.mcp.json" ]; then
-    cp "$HOME/.mcp.json" "$HOME/.mcp.json.backup"
-    echo "📦 Backed up existing .mcp.json"
+# Create settings.local.json if not exists
+if [ ! -f "$CLAUDE_DIR/settings.local.json" ]; then
+    echo '{}' > "$CLAUDE_DIR/settings.local.json"
+    echo "✅ Created settings.local.json (add your secrets here)"
 fi
 
-# Install configurations
-cp "$ROOT_DIR/settings.json" "$CLAUDE_DIR/settings.json"
-echo "✅ Installed settings.json"
-
-cp "$ROOT_DIR/mcp.json" "$HOME/.mcp.json"
+# Copy mcp.json to ~/.mcp.json (Claude Code reads from here)
+cp "$CLAUDE_DIR/mcp.json" "$HOME/.mcp.json"
 echo "✅ Installed .mcp.json"
-
-# Copy hooks if exists
-if [ -f "$ROOT_DIR/hooks/hooks.json" ]; then
-    cp "$ROOT_DIR/hooks/hooks.json" "$CLAUDE_DIR/hooks.json"
-    echo "✅ Installed hooks.json"
-fi
 
 echo ""
 echo "🎉 Claude Me installation complete!"
-echo "   Restart Claude Code to apply changes."
 echo ""
-echo "📦 Plugins will be auto-installed on first run:"
-echo "   - superpowers (TDD, debugging, collaboration)"
-echo "   - example-skills (skill-creator, mcp-builder, etc.)"
-echo "   - claude-me (find-skills, custom skills)"
+echo "📁 Installed to: ~/.claude/"
+echo "📝 Edit ~/.claude/settings.local.json to add secrets"
+echo ""
+echo "🔄 Restart Claude Code to apply changes."
