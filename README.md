@@ -25,14 +25,6 @@ fnm use --lts
 npm install -g @anthropic-ai/claude-code
 ```
 
-### Installation
-
-```bash
-git clone https://github.com/mao-family/claude-me.git ~/Repos/claude-me
-cd ~/Repos/claude-me
-./scripts/install.sh
-```
-
 ### Configure GitHub
 
 ```bash
@@ -42,6 +34,14 @@ gh auth login
 # Add to ~/.zshrc
 export GITHUB_TOKEN_PERSONAL=""  # https://github.com/settings/tokens
 export GITHUB_TOKEN_WORK=$(gh auth token)
+```
+
+### Installation
+
+```bash
+git clone https://github.com/mao-family/claude-me.git ~/Repos/claude-me
+cd ~/Repos/claude-me
+./scripts/install.sh
 ```
 
 Restart Claude Code. Done! 🎉
