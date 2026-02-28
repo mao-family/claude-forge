@@ -15,19 +15,20 @@ Personal AI digital worker / AI clone powered by Claude Code.
 
 ## Knowledge Locations
 
-### Global (auto-loaded by Claude Code)
-- This file (`~/.claude/CLAUDE.md`) - loaded automatically on every session
+### claude-me (this project)
+- `CLAUDE.md` - Global instructions (auto-loaded by Claude Code)
+- `memory-bank/` - claude-me project knowledge
 
-### Project Knowledge
-When in `workspace/repos/{project}/`:
+### Child Projects
+When working in `workspace/repos/{project}/`:
 → Read `workspace/memory-bank/{project}/CLAUDE.md`
 
-### Feature Knowledge
 When on `feature/{name}` branch:
 → Read `workspace/memory-bank/{project}/features/{name}/*.md`
 
 ## Directory Structure
 
+### claude-me (parent project)
 - `.claude-plugin/` - Plugin metadata
 - `skills/` - Workflow guides
 - `agents/` - Specialized sub-agents
@@ -35,12 +36,14 @@ When on `feature/{name}` branch:
 - `rules/` - Coding standards
 - `references/` - External knowledge docs
 - `scripts/` - Installation and utility scripts
-- `workspace/` - Project workspace
-  - `memory-bank/{project}/` - Project knowledge
-  - `repos/{project}/` - Git repositories
+- `memory-bank/` - claude-me project knowledge
 - `CLAUDE.md` - Global instructions (symlinked to ~/.claude/)
 - `mcp.json` - MCP server config (symlinked to ~/.mcp.json)
 - `settings.json` - Claude Code settings (symlinked to ~/.claude/)
+
+### Child Projects
+- `workspace/repos/{project}/` - Git repositories (child projects)
+- `workspace/memory-bank/{project}/` - Child project knowledge
 
 ## Commands
 
