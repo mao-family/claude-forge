@@ -63,7 +63,7 @@ https://github.com/mao-family/claude-me
 
 ```bash
 # Install (create symlinks + setup plugin)
-./scripts/install.sh
+bun run setup
 
 # Update plugin cache
 claude plugin marketplace update claude-me-marketplace
