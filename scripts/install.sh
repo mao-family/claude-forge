@@ -60,11 +60,12 @@ create_home_symlink() {
 
 echo "📎 Creating symlinks..."
 
-# Symlinks in ~/.claude/ (4 items)
+# Symlinks in ~/.claude/ (5 items)
 create_symlink "CLAUDE.md" "CLAUDE.md"
 create_symlink "settings.json" "settings.json"
 create_symlink "rules" "rules"
 create_symlink "workspace" "workspace"
+create_symlink "memory-bank" "memory-bank"
 
 # Symlinks in home directory
 # Note: Claude Code reads MCP config from ~/.mcp.json, NOT ~/.claude/mcp.json

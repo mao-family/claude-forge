@@ -50,6 +50,7 @@ When on `feature/{name}` branch:
 - `~/.claude/settings.json` → `settings.json`
 - `~/.claude/rules/` → `rules/`
 - `~/.claude/workspace/` → `workspace/`
+- `~/.claude/memory-bank/` → `memory-bank/`
 - `~/.mcp.json` → `mcp.json`
 - `~/.claude/plugins/` - Plugin loaded: `claude-me@claude-me-marketplace`
 
