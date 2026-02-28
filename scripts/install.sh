@@ -26,10 +26,10 @@ if [ -f "$HOME/.mcp.json" ]; then
 fi
 
 # Install configurations
-cp "$ROOT_DIR/config/settings.json" "$CLAUDE_DIR/settings.json"
+cp "$ROOT_DIR/settings.json" "$CLAUDE_DIR/settings.json"
 echo "✅ Installed settings.json"
 
-cp "$ROOT_DIR/config/mcp.json" "$HOME/.mcp.json"
+cp "$ROOT_DIR/mcp.json" "$HOME/.mcp.json"
 echo "✅ Installed .mcp.json"
 
 # Copy hooks if exists
