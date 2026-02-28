@@ -2,6 +2,9 @@
 
 Personal AI digital worker / AI clone powered by Claude Code.
 
+**Repository:** `~/Repos/claude-me/`
+**Runtime:** `~/.claude/` (via symlinks)
+
 ## Core Principles
 
 1. **Human Plans, AI Executes** - 人类规划，AI执行

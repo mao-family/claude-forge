@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Say '你好！claude-me hooks 工作正常 ✅' to the user, then read ~/.claude/CLAUDE.md to understand the system."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,20 +1,48 @@
 # Claude Me
 
-Your personal AI digital worker / AI clone powered by Claude Code.
+Personal AI digital worker / AI clone powered by Claude Code.
+
+## Architecture
+
+```
+~/Repos/claude-me/                 # Repository (single source of truth)
+├── .claude-plugin/plugin.json     # Plugin metadata
+├── hooks/hooks.json               # Plugin: hooks
+├── skills/                        # Plugin: skills
+├── agents/                        # Plugin: agents
+├── CLAUDE.md                      # ──symlink──→ ~/.claude/
+├── mcp.json                       # ──symlink──→ ~/.claude/
+├── settings.json                  # ──symlink──→ ~/.claude/
+├── rules/                         # ──symlink──→ ~/.claude/
+├── workspace/                     # ──symlink──→ ~/.claude/
+├── references/
+├── scripts/
+└── README.md
+
+~/.claude/                         # Claude Code runtime directory
+├── CLAUDE.md → claude-me          # Symlink
+├── mcp.json → claude-me           # Symlink
+├── settings.json → claude-me      # Symlink
+├── rules/ → claude-me             # Symlink
+├── workspace/ → claude-me         # Symlink
+├── settings.local.json            # Local secrets (not in repo)
+├── plugins/                       # Claude Code native
+├── history.jsonl                  # Claude Code native
+└── ... (cache, debug, etc.)
+```
+
+**Key Design:**
+- **Symlinks (5)**: `CLAUDE.md`, `mcp.json`, `settings.json`, `rules/`, `workspace/`
+- **Plugin (3)**: `hooks/`, `skills/`, `agents/`
+- **Native**: `settings.local.json`, `history.jsonl`, etc.
 
 ## Quick Start
 
-### Step 1: Prerequisites
+### Prerequisites
 
 **Requirements:**
 - macOS with **zsh** (default shell on macOS 10.15+)
 - **Homebrew** - package manager
-
-**Install Homebrew** (if not installed):
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
 
 **Install tools:**
 
@@ -39,276 +67,143 @@ fnm use --lts
 npm install -g @anthropic-ai/claude-code
 ```
 
-Now you can run `claude` and let AI help you with the rest! 🤖
-
----
-
-### Step 2: Login to GitHub
+### Installation
 
 ```bash
-# Personal account (mao-family org)
-gh auth login  # Login with maoshuyu
+# Clone repository
+git clone https://github.com/mao-family/claude-me.git ~/Repos/claude-me
 
-# Work account (infinity-microsoft org)
-gh auth login  # Login with shuyumao_microsoft
+# Run install script
+cd ~/Repos/claude-me
+./scripts/install.sh
+```
 
-# Verify accounts
+The install script will:
+1. Create symlinks from `~/.claude/` to the repository
+2. Install claude-me as a local plugin (for hooks, skills, agents)
+3. Create `settings.local.json` for your secrets
+
+### Login to GitHub
+
+```bash
+# Personal account
+gh auth login  # Login with your account
+
+# Work account (if needed)
+gh auth login  # Login with work account
+
+# Verify
 gh auth status
 ```
 
-### Step 3: Configure Tokens
+### Configure Tokens
 
 Add to `~/.zshrc`:
 
 ```bash
 # GitHub MCP tokens
-export GITHUB_TOKEN_PERSONAL=""  # Optional: create at https://github.com/settings/tokens
-export GITHUB_TOKEN_MICROSOFT=$(gh auth token)  # Dynamically get OAuth token from gh CLI
+export GITHUB_TOKEN_PERSONAL=""  # Create at https://github.com/settings/tokens
+export GITHUB_TOKEN_WORK=$(gh auth token)  # OAuth token from gh CLI
 ```
-
-> **Note**: Using `$(gh auth token)` is recommended for `infinity-microsoft` org access, as it returns an OAuth token (`gho_*`) that bypasses the organization's classic PAT restrictions.
 
 Then `source ~/.zshrc`.
 
-### Step 4: Install
-
-```bash
-git clone https://github.com/mao-family/claude-me.git
-cd claude-me
-bun run install
-```
-
-### Step 5: Setup Workspace
-
-```bash
-bun run setup
-```
-
-Interactively select and clone repos to `~/.claude/workspace/repos/`.
-
-### Step 6: Restart Claude Code
+### Restart Claude Code
 
 Done! 🎉
 
-The installer sets up `settings.json` which enables these plugins (auto-downloaded on first run):
+## Structure
+
+### Plugin Components (loaded via plugin system)
+
+| Component | Path | Description |
+|-----------|------|-------------|
+| Hooks | `hooks/hooks.json` | SessionStart, PreToolUse, etc. |
+| Skills | `skills/{name}/SKILL.md` | Workflow definitions |
+| Agents | `agents/{name}.md` | Specialized sub-agents |
+
+### Symlinked Components
+
+| Component | Path | Description |
+|-----------|------|-------------|
+| CLAUDE.md | Root | Global instructions |
+| mcp.json | Root | MCP server configuration |
+| settings.json | Root | Claude Code settings |
+| rules/ | Directory | Coding standards |
+| workspace/ | Directory | Projects and memory-bank |
+
+### Workspace Structure
+
+```
+workspace/
+├── memory-bank/              # Project knowledge
+│   └── {project}/
+│       ├── CLAUDE.md         # Project entry
+│       ├── context.md
+│       ├── architecture.md
+│       └── features/
+│           └── {feature}/
+│               ├── design.md
+│               ├── plan.md
+│               └── progress.md
+└── repos/                    # Git repositories
+    └── {org}/
+        └── {project}/
+```
+
+## Enabled Plugins
 
 | Plugin | Marketplace | Description |
 |--------|-------------|-------------|
 | `superpowers` | `superpowers-marketplace` | TDD, debugging, collaboration patterns |
-| `example-skills` | `anthropic-agent-skills` | skill-creator, mcp-builder, frontend-design, etc. |
-| `claude-me` | `claude-me` | find-skills + your custom skills |
-
----
-
-## Structure
-
-```
-claude-me/
-├── .claude-plugin/
-│   └── marketplace.json         # Plugin marketplace definition
-├── config/
-│   ├── settings.json            # Claude Code settings + enabled plugins
-│   ├── mcp.json                 # MCP server configuration
-│   └── workspace.json           # Workspace configuration
-├── skills/                      # Custom skills (included in claude-me plugin)
-│   └── find-skills/             # For discovering skills
-├── scripts/
-│   ├── install.sh               # Install configuration
-│   └── setup-workspace.sh       # Interactive workspace setup
-├── hooks/hooks.json             # Hook configuration
-└── package.json                 # Bun scripts
-```
-
-## Configuration
-
-### settings.json
-- Environment variables for Claude Code
-- Permission settings
-- Plugin marketplace configuration
-
-### mcp.json
-- MCP server connections (Notion, GitHub, etc.)
-
-### Workspace structure
-```
-~/.claude/workspace/
-└── repos/                    # Git repositories
-    ├── infinity-microsoft/
-    │   ├── picasso/
-    │   └── studio/
-    └── mao-family/
-        └── claude-me/
-```
+| `example-skills` | `anthropic-agent-skills` | skill-creator, mcp-builder, frontend-design |
+| `claude-me` | local | Your custom hooks, skills, agents |
 
 ## Updating
 
-Edit configurations in this repo, commit, and run `bun run install` again.
+```bash
+cd ~/Repos/claude-me
+git pull
+# Restart Claude Code
+```
+
+## Core Principles
+
+1. **Human Plans, AI Executes** - 人类规划，AI执行
+2. **Design Before Code** - 设计先于编码
+3. **Repository = Single Source of Truth** - 仓库是唯一真相来源
+4. **Test First, Always** - 始终测试优先
+5. **Encode Taste into Tooling** - 将品味编码到工具中
 
 ## TODO
 
-### Microsoft Teams MCP (office-365-mcp-server)
+### Microsoft Teams MCP
 
-- [ ] Configure Microsoft Teams MCP
+See [office-365-mcp-server](https://github.com/hvkshetry/office-365-mcp-server) for setup instructions.
 
-**Step 1: Register Azure App**
-1. Go to https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
-2. Click "New registration"
-3. Fill in:
-   - Name: `Claude MCP Office365`
-   - Supported account types: `Accounts in this organizational directory only`
-   - Redirect URI: Select `Web`, enter `http://localhost:3000/auth/callback`
-4. Click "Register"
-5. Note: For Microsoft internal accounts, you need a Service Tree ID from https://servicetree.msftcloudes.com
+### Slack MCP
 
-**Step 2: Configure API Permissions**
-1. Go to "API permissions" → "Add a permission" → "Microsoft Graph" → "Delegated permissions"
-2. Add these permissions:
-   - `Mail.Read`, `Mail.Send` (Email)
-   - `Calendars.ReadWrite` (Calendar)
-   - `Chat.Read`, `ChannelMessage.Read.All` (Teams)
-   - `Files.ReadWrite` (OneDrive)
-   - `User.Read` (User info)
-3. Click "Grant admin consent"
-
-**Step 3: Get Credentials**
-1. Copy `Application (client) ID` from Overview page
-2. Go to "Certificates & secrets" → "New client secret"
-3. Copy the generated secret value
-
-**Step 4: Add Environment Variables to `~/.zshrc`**
-```bash
-# Office 365 MCP
-export OFFICE_CLIENT_ID="your-client-id"
-export OFFICE_CLIENT_SECRET="your-client-secret"
-export OFFICE_TENANT_ID="your-tenant-id"
-export OFFICE_REDIRECT_URI="http://localhost:3000/auth/callback"
-```
-
-**Step 5: Add to `config/mcp.json`**
-```json
-"office365": {
-  "command": "node",
-  "args": ["/path/to/office-365-mcp-server/index.js"],
-  "env": {
-    "OFFICE_CLIENT_ID": "${OFFICE_CLIENT_ID}",
-    "OFFICE_CLIENT_SECRET": "${OFFICE_CLIENT_SECRET}",
-    "OFFICE_TENANT_ID": "${OFFICE_TENANT_ID}",
-    "OFFICE_REDIRECT_URI": "${OFFICE_REDIRECT_URI}"
-  },
-  "description": "Microsoft 365 (Teams, Outlook, Calendar)"
-}
-```
-
-**Step 6: Install and Authenticate**
-```bash
-git clone https://github.com/hvkshetry/office-365-mcp-server.git
-cd office-365-mcp-server
-npm install
-npm run auth-server  # Opens browser for OAuth login
-```
-
-Ref: https://github.com/hvkshetry/office-365-mcp-server
-
----
-
-### Slack MCP (slack-mcp-server)
-
-- [ ] Configure Slack MCP
-
-**Step 1: Create Slack App**
-1. Go to https://api.slack.com/apps
-2. Click "Create New App" → "From scratch"
-3. Enter App Name (e.g., `Claude MCP`) and select your Workspace
-
-**Step 2: Configure OAuth Permissions**
-1. Go to "OAuth & Permissions"
-2. Add these User Token Scopes:
-   - `channels:history`, `channels:read` (Public channels)
-   - `groups:history`, `groups:read` (Private channels)
-   - `im:history`, `im:read` (Direct messages)
-   - `mpim:history`, `mpim:read` (Group DMs)
-   - `users:read` (User info)
-   - `search:read` (Search)
-   - `team:read` (Team info)
-
-**Step 3: Install App and Get Token**
-1. Click "Install to Workspace"
-2. Authorize the app
-3. Copy the `User OAuth Token` (starts with `xoxp-...`)
-
-**Step 4: Add Environment Variables to `~/.zshrc`**
-```bash
-# Slack MCP
-export SLACK_MCP_XOXP_TOKEN="xoxp-your-token-here"
-```
-
-**Step 5: Add to `config/mcp.json`**
-```json
-"slack": {
-  "command": "npx",
-  "args": ["-y", "slack-mcp-server@latest", "--transport", "stdio"],
-  "env": {
-    "SLACK_MCP_XOXP_TOKEN": "${SLACK_MCP_XOXP_TOKEN}"
-  },
-  "description": "Slack workspace"
-}
-```
-
-**Step 6: Apply and Restart**
-```bash
-source ~/.zshrc
-./install.sh
-# Restart Claude Code
-```
-
-Ref: https://github.com/korotovsky/slack-mcp-server
-
----
+See [slack-mcp-server](https://github.com/korotovsky/slack-mcp-server) for setup instructions.
 
 ## Known Issues
 
-### GitHub MCP cannot access `infinity-microsoft` organization
+### GitHub MCP cannot access organization repos
 
-**Problem**: The `github-microsoft` MCP server cannot access `infinity-microsoft` repos.
+**Problem**: Some organizations block classic PAT (`ghp_*`) access.
 
-**Error**:
-```
-Permission Denied: `infinity-microsoft` forbids access via a personal access token (classic).
-Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.
-```
-
-**Cause**: The `infinity-microsoft` organization has disabled classic PAT (`ghp_*`) access for security reasons.
-
-**Solution**: Use `gh auth token` to dynamically get an OAuth token:
+**Solution**: Use `gh auth token` to get an OAuth token:
 
 ```bash
 # In ~/.zshrc
-export GITHUB_TOKEN_MICROSOFT=$(gh auth token)
+export GITHUB_TOKEN_WORK=$(gh auth token)
 ```
 
-This returns an OAuth token (`gho_*`) that is allowed by the organization. After updating, run:
-```bash
-source ~/.zshrc
-# Restart Claude Code
-```
-
-**Alternative - Use `gh` CLI directly** for `infinity-microsoft` repos:
-```bash
-# Switch to Microsoft account
-gh auth switch --user shuyumao_microsoft
-
-# Then use --repo flag for any operation
-gh pr list --repo infinity-microsoft/picasso
-gh pr view 123 --repo infinity-microsoft/picasso
-gh pr merge 123 --repo infinity-microsoft/picasso --squash
-gh repo list infinity-microsoft
-```
+This returns an OAuth token (`gho_*`) that is allowed by most organizations.
 
 ### GitHub Token Types Reference
 
-| Prefix | Type | Usage | `infinity-microsoft` Access |
-|--------|------|-------|----------------------------|
-| `ghp_*` | Classic PAT | Manual creation | ❌ Blocked by org policy |
-| `github_pat_*` | Fine-grained PAT | Manual creation | ✅ If configured correctly |
+| Prefix | Type | Usage | Org Access |
+|--------|------|-------|------------|
+| `ghp_*` | Classic PAT | Manual creation | ❌ Often blocked |
+| `github_pat_*` | Fine-grained PAT | Manual creation | ✅ If configured |
 | `gho_*` | OAuth App Token | `gh auth token` | ✅ Recommended |
-| `ghu_*` | User-to-Server Token | GitHub App (e.g., Copilot) | ⚠️ Limited scopes |

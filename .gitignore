@@ -1,25 +1,3 @@
-# Claude Code auto-generated files (do not commit)
-backups/
-cache/
-debug/
-downloads/
-file-history/
-paste-cache/
-plans/
-plugins/
-projects/
-session-env/
-shell-snapshots/
-statsig/
-tasks/
-todos/
-
-# Claude Code data files
-history.jsonl
-mcp-needs-auth-cache.json
-settings.json.backup
-stats-cache.json
-
 # Local secrets (machine-specific)
 settings.local.json
 
@@ -30,3 +8,6 @@ settings.local.json
 # Workspace repos (cloned separately)
 workspace/repos/*
 !workspace/repos/.gitkeep
+
+# Claude Code project-level config (if created)
+.claude/

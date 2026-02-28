@@ -1,0 +1,10 @@
+{
+  "name": "claude-me",
+  "description": "Personal AI digital worker / AI clone - vibe-coding workflow with skills, agents, and hooks",
+  "version": "0.1.0",
+  "author": {
+    "name": "maoshuyu"
+  },
+  "license": "MIT",
+  "keywords": ["skills", "agents", "vibe-coding", "workflow", "tdd"]
+}

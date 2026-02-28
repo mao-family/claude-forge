@@ -1,61 +1,56 @@
 #!/bin/bash
 
 # Claude Me - Installation Script
-# Clones claude-me to ~/.claude/ (or updates if exists)
+# Sets up symlinks and installs the plugin
 
 set -e
 
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CLAUDE_DIR="$HOME/.claude"
-REPO_URL="https://github.com/mao-family/claude-me.git"
 
 echo "🔧 Claude Me - Installing..."
+echo "   Source: $REPO_DIR"
+echo "   Target: $CLAUDE_DIR"
+echo ""
 
-# Check if ~/.claude exists
-if [ -d "$CLAUDE_DIR" ]; then
-    # Check if it's already a git repo (claude-me)
-    if [ -d "$CLAUDE_DIR/.git" ]; then
-        echo "📦 Updating existing claude-me installation..."
-        cd "$CLAUDE_DIR"
-        git pull
-        echo "✅ Updated claude-me"
-    else
-        # Existing Claude Code directory, need to merge
-        echo "📦 Found existing ~/.claude directory"
-        echo "   Backing up and merging with claude-me..."
+# Ensure ~/.claude exists
+mkdir -p "$CLAUDE_DIR"
 
-        # Create temp directory for clone
-        TEMP_DIR=$(mktemp -d)
-        git clone "$REPO_URL" "$TEMP_DIR"
-
-        # Move .git to ~/.claude
-        mv "$TEMP_DIR/.git" "$CLAUDE_DIR/.git"
-
-        # Copy new files (don't overwrite existing)
-        cp -n "$TEMP_DIR/CLAUDE.md" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -n "$TEMP_DIR/settings.json" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -n "$TEMP_DIR/mcp.json" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -rn "$TEMP_DIR/skills" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -rn "$TEMP_DIR/agents" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -n "$TEMP_DIR/hooks.json" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -rn "$TEMP_DIR/rules" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -rn "$TEMP_DIR/references" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -rn "$TEMP_DIR/workspace" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -n "$TEMP_DIR/.gitignore" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -n "$TEMP_DIR/README.md" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -n "$TEMP_DIR/package.json" "$CLAUDE_DIR/" 2>/dev/null || true
-        cp -rn "$TEMP_DIR/scripts" "$CLAUDE_DIR/" 2>/dev/null || true
-
-        # Cleanup
-        rm -rf "$TEMP_DIR"
-
-        echo "✅ Merged claude-me with existing ~/.claude"
+# Backup existing files if they're not symlinks
+backup_if_exists() {
+    local file="$1"
+    if [ -e "$CLAUDE_DIR/$file" ] && [ ! -L "$CLAUDE_DIR/$file" ]; then
+        echo "   📦 Backing up existing $file..."
+        mv "$CLAUDE_DIR/$file" "$CLAUDE_DIR/$file.backup.$(date +%Y%m%d%H%M%S)"
     fi
-else
-    # Fresh install
-    echo "📦 Fresh installation..."
-    git clone "$REPO_URL" "$CLAUDE_DIR"
-    echo "✅ Cloned claude-me to ~/.claude"
-fi
+}
+
+# Create symlink
+create_symlink() {
+    local source="$1"
+    local target="$2"
+
+    # Remove existing symlink or backup existing file
+    if [ -L "$CLAUDE_DIR/$target" ]; then
+        rm "$CLAUDE_DIR/$target"
+    elif [ -e "$CLAUDE_DIR/$target" ]; then
+        backup_if_exists "$target"
+    fi
+
+    ln -sf "$REPO_DIR/$source" "$CLAUDE_DIR/$target"
+    echo "   ✅ $target → $source"
+}
+
+echo "📎 Creating symlinks..."
+
+# Symlinks (5 items)
+create_symlink "CLAUDE.md" "CLAUDE.md"
+create_symlink "mcp.json" "mcp.json"
+create_symlink "settings.json" "settings.json"
+create_symlink "rules" "rules"
+create_symlink "workspace" "workspace"
+
+echo ""
 
 # Create settings.local.json if not exists
 if [ ! -f "$CLAUDE_DIR/settings.local.json" ]; then
@@ -63,14 +58,31 @@ if [ ! -f "$CLAUDE_DIR/settings.local.json" ]; then
     echo "✅ Created settings.local.json (add your secrets here)"
 fi
 
-# Copy mcp.json to ~/.mcp.json (Claude Code reads from here)
-cp "$CLAUDE_DIR/mcp.json" "$HOME/.mcp.json"
-echo "✅ Installed .mcp.json"
+echo ""
+echo "🔌 Installing claude-me plugin..."
+
+# Check if plugin is already installed
+if claude plugin list 2>/dev/null | grep -q "claude-me"; then
+    echo "   Plugin already installed, updating..."
+    claude plugin uninstall claude-me 2>/dev/null || true
+fi
+
+# Try to add as local marketplace and install
+# Note: Claude Code plugin system requires marketplace-based installation
+echo "   ⚠️  Local plugin installation requires manual setup."
+echo "   To use claude-me as a plugin, add it as a local marketplace:"
+echo ""
+echo "   claude plugin marketplace add $REPO_DIR"
+echo "   claude plugin install claude-me@claude-me"
+echo ""
 
 echo ""
 echo "🎉 Claude Me installation complete!"
 echo ""
-echo "📁 Installed to: ~/.claude/"
-echo "📝 Edit ~/.claude/settings.local.json to add secrets"
+echo "📁 Repository: $REPO_DIR"
+echo "📎 Symlinks created in: $CLAUDE_DIR"
+echo "🔌 Plugin: see instructions above to enable hooks, skills, agents"
+echo ""
+echo "📝 Edit $CLAUDE_DIR/settings.local.json to add secrets"
 echo ""
 echo "🔄 Restart Claude Code to apply changes."
