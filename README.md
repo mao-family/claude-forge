@@ -46,14 +46,6 @@ export GITHUB_TOKEN_WORK=$(gh auth token)
 
 Restart Claude Code. Done! 🎉
 
-## Enabled Plugins
-
-| Plugin | Marketplace | Description |
-|--------|-------------|-------------|
-| `superpowers` | `superpowers-marketplace` | TDD, debugging, collaboration patterns |
-| `example-skills` | `anthropic-agent-skills` | skill-creator, mcp-builder, frontend-design |
-| `claude-me` | `claude-me-marketplace` | Your custom hooks, skills, agents |
-
 ## Updating
 
 ```bash
