@@ -11,7 +11,7 @@ Personal AI digital worker / AI clone powered by Claude Code.
 ├── skills/                        # Plugin: skills
 ├── agents/                        # Plugin: agents
 ├── CLAUDE.md                      # ──symlink──→ ~/.claude/
-├── mcp.json                       # ──symlink──→ ~/.claude/
+├── mcp.json                       # ──symlink──→ ~/.mcp.json (home dir)
 ├── settings.json                  # ──symlink──→ ~/.claude/
 ├── rules/                         # ──symlink──→ ~/.claude/
 ├── workspace/                     # ──symlink──→ ~/.claude/
@@ -21,7 +21,6 @@ Personal AI digital worker / AI clone powered by Claude Code.
 
 ~/.claude/                         # Claude Code runtime directory
 ├── CLAUDE.md → claude-me          # Symlink
-├── mcp.json → claude-me           # Symlink
 ├── settings.json → claude-me      # Symlink
 ├── rules/ → claude-me             # Symlink
 ├── workspace/ → claude-me         # Symlink
@@ -29,12 +28,16 @@ Personal AI digital worker / AI clone powered by Claude Code.
 ├── plugins/                       # Claude Code native
 ├── history.jsonl                  # Claude Code native
 └── ... (cache, debug, etc.)
+
+~/.mcp.json → claude-me/mcp.json   # MCP config (Claude Code reads from here)
 ```
 
 **Key Design:**
-- **Symlinks (5)**: `CLAUDE.md`, `mcp.json`, `settings.json`, `rules/`, `workspace/`
+- **Symlinks (5)**: `CLAUDE.md`, `settings.json`, `rules/`, `workspace/` in `~/.claude/`, and `mcp.json` in `~/`
 - **Plugin (3)**: `hooks/`, `skills/`, `agents/`
 - **Native**: `settings.local.json`, `history.jsonl`, etc.
+
+> **Note**: Claude Code reads MCP configuration from `~/.mcp.json`, NOT `~/.claude/mcp.json`.
 
 ## Quick Start
 
@@ -124,13 +127,13 @@ Done! 🎉
 
 ### Symlinked Components
 
-| Component | Path | Description |
-|-----------|------|-------------|
-| CLAUDE.md | Root | Global instructions |
-| mcp.json | Root | MCP server configuration |
-| settings.json | Root | Claude Code settings |
-| rules/ | Directory | Coding standards |
-| workspace/ | Directory | Projects and memory-bank |
+| Component | Symlink Location | Description |
+|-----------|------------------|-------------|
+| CLAUDE.md | `~/.claude/CLAUDE.md` | Global instructions |
+| mcp.json | `~/.mcp.json` | MCP server configuration |
+| settings.json | `~/.claude/settings.json` | Claude Code settings |
+| rules/ | `~/.claude/rules/` | Coding standards |
+| workspace/ | `~/.claude/workspace/` | Projects and memory-bank |
 
 ### Workspace Structure
 

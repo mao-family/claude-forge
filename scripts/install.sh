@@ -7,6 +7,7 @@ set -e
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CLAUDE_DIR="$HOME/.claude"
+HOME_DIR="$HOME"
 
 echo "🔧 Claude Me - Installing..."
 echo "   Source: $REPO_DIR"
@@ -25,7 +26,7 @@ backup_if_exists() {
     fi
 }
 
-# Create symlink
+# Create symlink (for files in ~/.claude/)
 create_symlink() {
     local source="$1"
     local target="$2"
@@ -41,14 +42,33 @@ create_symlink() {
     echo "   ✅ $target → $source"
 }
 
+# Create symlink in home directory (for files like ~/.mcp.json)
+create_home_symlink() {
+    local source="$1"
+    local target="$2"
+
+    if [ -L "$HOME_DIR/$target" ]; then
+        rm "$HOME_DIR/$target"
+    elif [ -e "$HOME_DIR/$target" ]; then
+        echo "   📦 Backing up existing ~/$target..."
+        mv "$HOME_DIR/$target" "$HOME_DIR/$target.backup.$(date +%Y%m%d%H%M%S)"
+    fi
+
+    ln -sf "$REPO_DIR/$source" "$HOME_DIR/$target"
+    echo "   ✅ ~/$target → $source"
+}
+
 echo "📎 Creating symlinks..."
 
-# Symlinks (5 items)
+# Symlinks in ~/.claude/ (4 items)
 create_symlink "CLAUDE.md" "CLAUDE.md"
-create_symlink "mcp.json" "mcp.json"
 create_symlink "settings.json" "settings.json"
 create_symlink "rules" "rules"
 create_symlink "workspace" "workspace"
+
+# Symlinks in home directory
+# Note: Claude Code reads MCP config from ~/.mcp.json, NOT ~/.claude/mcp.json
+create_home_symlink "mcp.json" ".mcp.json"
 
 echo ""
 
