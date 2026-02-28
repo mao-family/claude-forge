@@ -10,44 +10,54 @@ CLAUDE.md is the instruction file for Claude Code. There are two types:
 1. **Global CLAUDE.md** (`~/.claude/CLAUDE.md`) - auto-loaded on every session
 2. **Project CLAUDE.md** (`memory-bank/{project}/CLAUDE.md`) - read when working on that project
 
+## Key Insight
+
+> LLMs are stateless functions. The only thing the model knows about your codebase is the tokens you put into it.
+
+CLAUDE.md is the **highest-leverage configuration point** — treat it with care.
+
 ## File Locations
 
 | Type | Location | When Loaded |
 |------|----------|-------------|
-| Global | `~/.claude/CLAUDE.md` (symlink to `~/Repos/claude-me/CLAUDE.md`) | Every session |
-| Child Project | `workspace/memory-bank/{project}/CLAUDE.md` | When in `workspace/repos/{project}/` |
+| Global | `~/.claude/CLAUDE.md` | Every session |
+| Child Project | `workspace/memory-bank/{project}/CLAUDE.md` | When in that project |
 
-## When to Create CLAUDE.md
+## Three Dimensions Framework
 
-- Starting a new project
-- Setting up claude-me for the first time
-- Onboarding a new codebase to Claude Code
-- Documenting project-specific workflows
+Structure your CLAUDE.md around:
+
+| Dimension | Description | Example |
+|-----------|-------------|---------|
+| **WHAT** | Technical stack and architecture | Apps, packages, monorepo structure |
+| **WHY** | Project purpose | What different sections accomplish |
+| **HOW** | Practical working instructions | Use `bun` not `node`, how to test |
 
 ## Structure
 
-A good CLAUDE.md should be **concise** and **actionable**. Keep it under 100 lines. Details belong in `rules/`, `memory-bank/`, or `README.md`.
+A good CLAUDE.md should be **concise** and **universally applicable**.
+
+- **Target: < 100 lines** (some teams use < 60 lines)
+- Task-specific details belong in `memory-bank/`, `rules/`, or separate files
 
 ### Required Sections
 
 ```markdown
 # {project-name}
 
-{One-line description of what this project is.}
+{One-line description.}
 
 ## Core Principles
 
-{3-5 guiding principles for how to work on this project.}
-{Focus on decision-making, not implementation details.}
+{3-5 guiding principles for decision-making.}
 
 ## Directory Structure
 
-{Tree view showing key directories and files.}
-{Include symlinks if applicable.}
+{Tree view of key directories.}
 
 ## Commands
 
-{Essential commands for building, testing, running.}
+{Essential commands for build, test, run.}
 ```
 
 ### Optional Sections
@@ -55,123 +65,73 @@ A good CLAUDE.md should be **concise** and **actionable**. Keep it under 100 lin
 ```markdown
 ## Knowledge Locations
 
-{Where to find additional context.}
-{Point to memory-bank/, features/, etc.}
+{Pointers to memory-bank/, features/, etc.}
 
 ## Development
 
-{Link to README.md for detailed setup.}
+{Link to README.md.}
 ```
 
 ## Best Practices
 
-1. **English only** - Keep instructions in English for consistency
-2. **Concise** - Every line should earn its place
-3. **Actionable** - Tell Claude what to do, not what things are
-4. **Hierarchical** - Put details in referenced files, not inline
-5. **Maintainable** - Structure should be easy to update
+### 1. Only Universally Applicable Content
+
+Claude's system prompt says: "this context may or may not be relevant to your tasks."
+
+**Implication:** Task-specific content gets ignored. Only put content that applies to EVERY session.
+
+### 2. Progressive Disclosure
+
+Instead of stuffing everything into CLAUDE.md, use pointers:
+
+```markdown
+## Architecture
+See `memory-bank/architecture.md` for details.
+```
+
+Create separate files in `memory-bank/`:
+- `architecture.md`
+- `conventions.md`
+- `testing.md`
+
+**Key principle:** "Prefer pointers to copies" — file references don't get outdated.
+
+### 3. Minimize Instructions
+
+- Frontier LLMs reliably follow ~150-200 instructions
+- Claude Code's system prompt already has ~50 instructions
+- Keep your CLAUDE.md instructions minimal
+
+### 4. Claude Isn't a Linter
+
+Never use CLAUDE.md for code style enforcement. Use:
+- Biome, ESLint, Prettier
+- Pre-commit hooks
+- `rules/` directory
+
+### 5. Don't Auto-Generate
+
+Don't use `/init` to auto-generate CLAUDE.md. Manual crafting is worth it.
 
 ## Anti-patterns
 
-- Long prose explanations (use bullet points)
-- Implementation details (put in `rules/` or code comments)
-- Duplicating README content (link to it instead)
-- Mixing languages (stick to English)
-- Overly rigid instructions (explain the "why" instead)
-
-## Examples
-
-### Minimal CLAUDE.md
-
-```markdown
-# my-project
-
-A web app for task management.
-
-## Core Principles
-
-1. **User First** - Optimize for user experience
-2. **Test Everything** - No PR without tests
-3. **Keep It Simple** - Avoid over-engineering
-
-## Commands
-
-\`\`\`bash
-bun run dev      # Start dev server
-bun run test     # Run tests
-bun run build    # Production build
-\`\`\`
-
-## Development
-
-See README.md for setup instructions.
-```
-
-### Parent Project CLAUDE.md (like claude-me)
-
-```markdown
-# claude-me
-
-Personal AI digital worker powered by Claude Code.
-
-## Core Principles
-
-1. **Human Plans, AI Executes** - You plan, I execute
-2. **Design Before Code** - Think before you code
-3. **Repository = Single Source of Truth** - Everything lives in the repo
-
-## Knowledge Locations
-
-### This Project
-- `CLAUDE.md` - Global instructions (auto-loaded)
-- `memory-bank/` - Project knowledge
-
-### Child Projects
-When in `workspace/repos/{project}/`:
-→ Read `workspace/memory-bank/{project}/CLAUDE.md`
-
-## Directory Structure
-
-### Repository
-\`\`\`
-~/Repos/claude-me/
-├── skills/                  # Workflow guides
-├── agents/                  # Sub-agents
-├── hooks/                   # Automation
-├── rules/                   # Coding standards
-├── memory-bank/             # Project knowledge
-├── workspace/
-│   ├── repos/{project}/     # Child projects
-│   └── memory-bank/{project}/
-└── CLAUDE.md
-\`\`\`
-
-### Runtime
-\`\`\`
-~/.claude/
-├── CLAUDE.md → claude-me
-├── settings.json → claude-me
-├── rules/ → claude-me
-├── workspace/ → claude-me
-└── memory-bank/ → claude-me
-\`\`\`
-
-## Commands
-
-\`\`\`bash
-bun run install                              # Setup symlinks
-claude plugin marketplace update claude-me   # Update plugin
-\`\`\`
-```
+- Long prose (use bullet points)
+- Implementation details (put in `rules/`)
+- Duplicating README (link instead)
+- Task-specific instructions (put in `memory-bank/`)
+- Code snippets that get outdated (use file references)
+- Using LLM for linting (use tools)
 
 ## Checklist
 
-Before finishing a CLAUDE.md, verify:
+Before finishing a CLAUDE.md:
 
-- [ ] Project name and description at the top
-- [ ] Core principles are decision-focused (not implementation details)
+- [ ] Project name and description at top
+- [ ] Covers WHAT/WHY/HOW
+- [ ] Core principles are decision-focused
 - [ ] Directory structure matches reality
-- [ ] Commands are tested and work
-- [ ] No duplicate content with README.md
+- [ ] Commands are tested
 - [ ] Under 100 lines
 - [ ] English only
+- [ ] All content is universally applicable
+- [ ] Task-specific details are in separate files
