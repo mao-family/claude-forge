@@ -45,6 +45,14 @@ When on `feature/{name}` branch:
 - `workspace/repos/{project}/` - Git repositories (child projects)
 - `workspace/memory-bank/{project}/` - Child project knowledge
 
+### Runtime
+- `~/.claude/CLAUDE.md` → `CLAUDE.md`
+- `~/.claude/settings.json` → `settings.json`
+- `~/.claude/rules/` → `rules/`
+- `~/.claude/workspace/` → `workspace/`
+- `~/.mcp.json` → `mcp.json`
+- `~/.claude/plugins/` - Plugin loaded: `claude-me@claude-me-marketplace`
+
 ## Commands
 
 ```bash
