@@ -18,14 +18,14 @@ Personal AI digital worker / AI clone powered by Claude Code.
 
 ### Child Projects (workspace/repos/* only)
 
-**MUST follow this convention:**
+**CRITICAL: When working in `workspace/repos/{project}/`, NEVER create CLAUDE.md inside the project directory.**
 
-| File | Location | When to Read |
-|------|----------|--------------|
-| Project CLAUDE.md | `workspace/memory-bank/{project}/CLAUDE.md` | When entering `workspace/repos/{project}/` |
-| Feature docs | `workspace/memory-bank/{project}/features/{name}/*.md` | When on `feature/{name}` branch |
+| File | Location | Action |
+|------|----------|--------|
+| Project CLAUDE.md | `workspace/memory-bank/{project}/CLAUDE.md` | **CREATE here**, not in `workspace/repos/{project}/` |
+| Feature docs | `workspace/memory-bank/{project}/features/{name}/*.md` | Create when on `feature/{name}` branch |
 
-This convention applies **only** to projects under `workspace/repos/`.
+**Why:** Child projects are git submodules. Their knowledge files live in `workspace/memory-bank/` to keep repos clean.
 
 ## Directory Structure
 
