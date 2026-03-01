@@ -51,6 +51,10 @@ A good CLAUDE.md should be **concise** and **universally applicable**.
 
 {3-5 guiding principles for decision-making.}
 
+## Knowledge Locations
+
+{Pointers to memory-bank/, features/, etc.}
+
 ## Directory Structure
 
 {Tree view of key directories.}
@@ -58,18 +62,6 @@ A good CLAUDE.md should be **concise** and **universally applicable**.
 ## Commands
 
 {Essential commands for build, test, run.}
-```
-
-### Optional Sections
-
-```markdown
-## Knowledge Locations
-
-{Pointers to memory-bank/, features/, etc.}
-
-## Development
-
-{Link to README.md.}
 ```
 
 ## Best Practices
