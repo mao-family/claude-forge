@@ -5,23 +5,13 @@ description: Guide for creating or updating CLAUDE.md files. Use this skill when
 
 # Writing CLAUDE.md
 
-CLAUDE.md is the instruction file for Claude Code. There are two types:
-
-1. **Global CLAUDE.md** (`~/.claude/CLAUDE.md`) - auto-loaded on every session
-2. **Project CLAUDE.md** (`memory-bank/{project}/CLAUDE.md`) - read when working on that project
+CLAUDE.md is the instruction file for Claude Code, auto-loaded at session start.
 
 ## Key Insight
 
 > LLMs are stateless functions. The only thing the model knows about your codebase is the tokens you put into it.
 
 CLAUDE.md is the **highest-leverage configuration point** — treat it with care.
-
-## File Locations
-
-| Type | Location | When Loaded |
-|------|----------|-------------|
-| Global | `~/.claude/CLAUDE.md` | Every session |
-| Child Project | `workspace/memory-bank/{project}/CLAUDE.md` | When in that project |
 
 ## Three Dimensions Framework
 
@@ -38,7 +28,7 @@ Structure your CLAUDE.md around:
 A good CLAUDE.md should be **concise** and **universally applicable**.
 
 - **Target: < 100 lines** (some teams use < 60 lines)
-- Task-specific details belong in `memory-bank/`, `rules/`, or separate files
+- Task-specific details belong in separate files
 
 ### Required Sections
 
@@ -53,7 +43,7 @@ A good CLAUDE.md should be **concise** and **universally applicable**.
 
 ## Knowledge Locations
 
-{Pointers to memory-bank/, features/, etc.}
+{Pointers to project knowledge files.}
 
 ## Directory Structure
 
@@ -78,13 +68,8 @@ Instead of stuffing everything into CLAUDE.md, use pointers:
 
 ```markdown
 ## Architecture
-See `memory-bank/architecture.md` for details.
+See `docs/architecture.md` for details.
 ```
-
-Create separate files in `memory-bank/`:
-- `architecture.md`
-- `conventions.md`
-- `testing.md`
 
 **Key principle:** "Prefer pointers to copies" — file references don't get outdated.
 
@@ -99,7 +84,7 @@ Create separate files in `memory-bank/`:
 Never use CLAUDE.md for code style enforcement. Use:
 - Biome, ESLint, Prettier
 - Pre-commit hooks
-- `rules/` directory
+- Separate rules files
 
 ### 5. Auto-Analyze Existing Repos
 
@@ -126,9 +111,9 @@ Don't use `/init` to auto-generate CLAUDE.md. Manual crafting is worth it.
 ## Anti-patterns
 
 - Long prose (use bullet points)
-- Implementation details (put in `rules/`)
+- Implementation details (put in separate files)
 - Duplicating README (link instead)
-- Task-specific instructions (put in `memory-bank/`)
+- Task-specific instructions (put in project docs)
 - Code snippets that get outdated (use file references)
 - Using LLM for linting (use tools)
 

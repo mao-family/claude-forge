@@ -16,12 +16,16 @@ Personal AI digital worker / AI clone powered by Claude Code.
 - `CLAUDE.md` - Global instructions (auto-loaded by Claude Code)
 - `memory-bank/` - claude-me project knowledge
 
-### Child Projects
-When working in `workspace/repos/{project}/`:
-→ Read `workspace/memory-bank/{project}/CLAUDE.md`
+### Child Projects (workspace/repos/* only)
 
-When on `feature/{name}` branch:
-→ Read `workspace/memory-bank/{project}/features/{name}/*.md`
+**MUST follow this convention:**
+
+| File | Location | When to Read |
+|------|----------|--------------|
+| Project CLAUDE.md | `workspace/memory-bank/{project}/CLAUDE.md` | When entering `workspace/repos/{project}/` |
+| Feature docs | `workspace/memory-bank/{project}/features/{name}/*.md` | When on `feature/{name}` branch |
+
+This convention applies **only** to projects under `workspace/repos/`.
 
 ## Directory Structure
 
