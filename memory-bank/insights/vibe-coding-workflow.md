@@ -156,3 +156,50 @@
 > **"Building software still demands discipline, but the discipline shows up more in the scaffolding rather than the code."**
 
 This is exactly what claude-me is building — the scaffolding (skills, hooks, MCP configs) that enables agents to work effectively.
+
+---
+
+## Core Principles Implementation
+
+| Principle | Mechanism | Example |
+|-----------|-----------|---------|
+| **Human Plans, AI Executes** | `<HARD-GATE>`, design docs as prerequisites | Brainstorming skill forces clarifying dialog |
+| **Design Before Code** | GDD/PRD in memory-bank, architect agent | AI reads design before execution |
+| **Repository = Truth** | SessionStart loads memory-bank | Slack discussion not in repo = invisible |
+| **Test First, Always** | TDD skill, 80% coverage | Violation = delete and restart |
+| **Encode Taste into Tooling** | rules/, hooks/, linters | Found problem? Write a rule, not verbal correction |
+
+---
+
+## Workflow Stages
+
+| Stage | Skill | Agent | Output |
+|-------|-------|-------|--------|
+| **0. INITIALIZE** | - | - | branch + feature memory |
+| **1. BRAINSTORM** | `brainstorming` | `architect` | design.md |
+| **2. PLAN** | `writing-plans` | `planner` | plan.md (2-5 min tasks) |
+| **3. EXECUTE** | `tdd` | `tdd-guide` | code |
+| **4. REVIEW** | `code-review` | `code-reviewer` | feedback |
+| **5. COMMIT** | - | - | commit |
+| **6. LEARN** | - | - | update memory-bank |
+
+---
+
+## Enforcement Layers
+
+| Layer | Purpose | Mechanisms |
+|-------|---------|------------|
+| **Document** | Psychological | `<HARD-GATE>`, Checklist, Anti-Pattern Table |
+| **Hook** | Automatic interception | PreToolUse, PostToolUse, SessionStart |
+| **Agent** | Specialized review | code-reviewer, security-reviewer |
+| **CI/CD** | Final gates | Test coverage, Security scan |
+
+---
+
+## Memory Bank Loading Strategy
+
+| Layer | When to Load | Content |
+|-------|--------------|---------|
+| `~/.claude/memory-bank/` | Every SessionStart | Global knowledge |
+| `workspace/memory-bank/{project}/CLAUDE.md` | When in project dir | Project entry |
+| `workspace/memory-bank/{project}/features/{feature}/` | On feature branch | Feature design, plan, progress |
