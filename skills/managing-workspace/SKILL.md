@@ -22,13 +22,38 @@ Manage child project repositories in `workspace/repos/`.
 
 ```dot
 digraph add_repo {
-  "Get repo URL or owner/repo" -> "Determine gh account";
+  "Get repo name or owner/repo" -> "Has owner?";
+  "Has owner?" -> "Determine gh account" [label="yes"];
+  "Has owner?" -> "Search across all accounts" [label="no"];
+  "Search across all accounts" -> "Found?" ;
+  "Found?" -> "Present results to user" [label="multiple"];
+  "Found?" -> "Determine gh account" [label="single"];
+  "Found?" -> "Report not found" [label="none"];
+  "Present results to user" -> "User selects" -> "Determine gh account";
   "Determine gh account" -> "Switch to correct account";
   "Switch to correct account" -> "Clone to workspace/repos/";
   "Clone to workspace/repos/" -> "Create memory-bank dir";
   "Create memory-bank dir" -> "Prompt about writing-claude-md";
 }
 ```
+
+### Search Across All Accounts
+
+When user provides only repo name (no owner), search across all configured accounts:
+
+```bash
+# Get all accounts
+accounts=$(gh auth status 2>&1 | grep "Logged in to github.com account" | sed 's/.*account //' | sed 's/ .*//')
+
+# Search each account
+for account in ${accounts}; do
+  gh auth switch --user "${account}" 2>/dev/null
+  echo "=== Searching as ${account} ==="
+  gh search repos "<repo_name>" --limit 5 --json fullName,description
+done
+```
+
+If multiple results found, present them to the user and ask which one to clone.
 
 ### GitHub Accounts
 
