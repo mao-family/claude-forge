@@ -158,5 +158,3 @@ bun run test            # Bats tests
 | Document | Content |
 |----------|---------|
 | [rules/shell.md](../rules/shell.md) | Shell script style guide |
-| [rules/markdown.md](../rules/markdown.md) | Markdown style guide |
-| [rules/lint.md](../rules/lint.md) | Rules for using lint tools |

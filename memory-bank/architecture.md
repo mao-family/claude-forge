@@ -28,6 +28,7 @@ Located in `skills/`, workflow guides loaded on-demand:
 
 - **writing-claude-md** - Guide for creating CLAUDE.md files
 - **writing-docs** - Markdown style and progressive disclosure rules
+- **using-lint** - Rules for using lint tools correctly
 
 ### Agents
 
@@ -38,7 +39,7 @@ Located in `agents/`, specialized sub-agents for specific tasks or domains.
 Located in `rules/`, coding standards auto-loaded every session:
 
 - **shell.md** - Shell script style guide
-- **lint.md** - Lint tool usage rules
+- **docs-sync.md** - Keep documentation in sync
 
 ### Scripts
 
