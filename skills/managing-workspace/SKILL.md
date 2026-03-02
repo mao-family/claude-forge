@@ -22,47 +22,39 @@ Manage child project repositories in `workspace/repos/`.
 
 ```dot
 digraph add_repo {
-  "Get search keyword" -> "Search all MCP accounts in parallel";
-  "Search all MCP accounts in parallel" -> "Filter & group results";
-  "Filter & group results" -> "User selects repo";
-  "User selects repo" -> "Switch to correct account";
+  "Get repo URL or owner/repo" -> "Determine gh account";
+  "Determine gh account" -> "Switch to correct account";
   "Switch to correct account" -> "Clone to workspace/repos/";
   "Clone to workspace/repos/" -> "Create memory-bank dir";
   "Create memory-bank dir" -> "Prompt about writing-claude-md";
 }
 ```
 
-### Search Strategy
+### GitHub Accounts
 
-Search ALL MCP GitHub accounts in parallel:
+Available `gh` CLI accounts (check with `gh auth status`):
 
-```bash
-# Parallel search
-mcp__github-personal__search_repositories(query)
-mcp__github-microsoft__search_repositories(query)
-# ... other accounts
-```
+| Account | Organizations | Usage |
+|---------|---------------|-------|
+| `maoshuyu` | mao-family | Personal projects (default) |
+| `shuyumao_microsoft` | infinity-microsoft | Microsoft work |
+| `maoku-family` | - | Family projects |
 
-### Display Results
+### Determine Account
 
-**Priority:** Private repos first, grouped by account.
+Based on repo owner:
 
-```text
-┌─ github-microsoft ─────────────────────┐
-│ 1. infinity-microsoft/studio (private) │
-│ 2. infinity-microsoft/docs (private)   │
-└────────────────────────────────────────┘
-┌─ github-personal ──────────────────────┐
-│ 3. mao-family/project-x (private)      │
-└────────────────────────────────────────┘
-```
-
-Filter out unrelated public repos (e.g., searching "studio" should not show microsoft/vscode).
+| Owner Pattern | Account |
+|---------------|---------|
+| `infinity-microsoft/*` | `shuyumao_microsoft` |
+| `mao-family/*` | `maoshuyu` |
+| `maoku-family/*` | `maoku-family` |
+| Other | Try `maoshuyu` first |
 
 ### Clone
 
 ```bash
-# Switch to correct account
+# Switch to correct account (if needed)
 gh auth switch --user <account>
 
 # Clone
@@ -72,6 +64,8 @@ gh repo clone <owner>/<repo>
 # Create memory-bank
 mkdir -p ../memory-bank/<repo>/
 ```
+
+> **Note:** 不需要切换回默认账户。`gh` 的 git-credential helper 会根据 repo URL 自动选择正确的账户进行认证。
 
 ### Completion Message
 
