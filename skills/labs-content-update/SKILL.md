@@ -137,13 +137,66 @@ When Studio's `src/schemas/labs-schemas.ts` changes:
 ## Add New Experiment
 
 1. **Create directory**: `content/original/{experiment-name}/`
-2. **Create metadata.json** with required fields:
-   - `name`, `alias`, `type` (FEATURE/PROJECT), `status`, `assets`
+2. **Create metadata.json** using template below
 3. **Create landing-page.md** with experiment description
 4. **Register in settings.json**:
    - Add entry with unique `id` (increment from highest existing)
    - Set `enabled: true`
 5. Run tests and update baselines
+
+### metadata.json Template
+
+```json
+{
+  "name": "Experiment Display Name",
+  "alias": "experiment-alias",
+  "type": "FEATURE",
+  "status": "UPCOMING",
+  "assets": {
+    "descriptions": {
+      "title": {
+        "stringValue": "Experiment Display Name",
+        "i18nKey": "labs.experimentsAssets.experimentAlias.title"
+      },
+      "short": {
+        "stringValue": "Brief description of the experiment.",
+        "i18nKey": "labs.experimentsAssets.experimentAlias.shortDescription"
+      },
+      "long": {
+        "filename": "labs-exp-experiment-alias"
+      }
+    },
+    "covers": [
+      {
+        "type": "IMAGE",
+        "url": "https://copilot.microsoft.com/static/copilotlabs/experiment-alias-cover.jpg",
+        "consumers": ["HOMEPAGE"]
+      }
+    ],
+    "links": [
+      {
+        "type": "EXTERNAL_LINK",
+        "trigger": "TRY_NOW_BUTTON",
+        "url": "https://example.com",
+        "stringValue": "Try now",
+        "i18nKey": "labs.experimentsAssets.experimentAlias.tryNowButton"
+      }
+    ],
+    "layouts": {
+      "order": 10
+    }
+  }
+}
+```
+
+### Field Reference
+
+| Field | Required | Values |
+|-------|----------|--------|
+| `type` | Yes | `FEATURE`, `PROJECT` |
+| `status` | Yes | `NOTSET`, `REGISTERED`, `UPCOMING`, `LIVE`, `GRADUATED`, `SUNSETTED` |
+| `alias` | Yes | URL-friendly slug (kebab-case) |
+| `layouts.order` | No | Display order on homepage (lower = first) |
 
 ## Disable/Enable Experiment
 
@@ -172,7 +225,7 @@ Covers are images or videos displayed on homepage and landing pages.
 content/original/{exp}/*.jpg  →  content/dist/  →  picasso-assets  →  CDN
 ```
 
-**可以一次完成**：媒体文件和 metadata.json 可以同时更新，因为 URL 是可预测的。
+**Can be done in one PR**: Media files and metadata.json can be updated together since the URL is predictable.
 
 ### Steps
 
@@ -263,7 +316,7 @@ gh workflow run "Publish: Production" --repo infinity-microsoft/labs-content \
 
 - **picasso-assets**: `staging.config.json` + media files (使用 `--sync-media`)
 - Creates PR for review
-- **一次 Publish 同时更新内容和媒体**
+- **One Publish updates both config and media**
 
 ### Production Publishes To
 
@@ -279,6 +332,31 @@ gh workflow run "Publish: Production" --repo infinity-microsoft/labs-content \
 | Push directly to main | Create feature branch and PR |
 | Forget to update baselines | Run `npm run test:update-integration-baselines` |
 | Miss schema file | Update BOTH `config.schema.json` AND `metadata.schema.json` |
+
+## Troubleshooting
+
+### Staging workflow fails with "content/dist is empty"
+
+**Symptom**:
+
+```text
+❌ Error: content/dist is empty or does not exist
+Please ensure the release workflow has been run on this branch first.
+```
+
+**Cause**: Publish workflow 在 `main` 分支运行，但 `dist/` 目录只存在于 `release/*` 分支。
+
+**Fix**:
+
+```bash
+# 1. 找到最新的 release 分支
+git fetch origin
+git branch -r | grep release | tail -1
+
+# 2. 在 release 分支上运行 Publish
+gh workflow run "Publish: Staging" --repo infinity-microsoft/labs-content \
+  --ref release/YYYY-MM-DD-HHMMSS
+```
 
 ## Checklist
 
