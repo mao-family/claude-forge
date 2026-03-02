@@ -64,6 +64,39 @@ original/ → generated/ → dist/ → publish
 
 ## Update Workflow
 
+### Complete Flow (Claude Automates Most Steps)
+
+| Step | Who | Action |
+|------|-----|--------|
+| 0 | Claude | Check if Studio schema needs sync |
+| 1 | Claude asks | Collect info: what to update, new values |
+| 2 | Claude | Sync schema if needed |
+| 3 | Claude | Edit files based on user input |
+| 4 | Claude | Run `npm run test:integration` |
+| 5 | Claude | Update baselines if needed |
+| 6 | Claude | Create branch, commit, push, create PR |
+| 7 | Claude | **Tell user PR URL, remind to review diff and merge** |
+| 8 | User | Review and merge PR |
+| 9 | Claude | **Watch Release workflow until complete** |
+| 10 | Claude asks | "Release done. Publish to Staging?" |
+| 11 | Claude | Trigger Publish: Staging on release branch |
+| 12 | Claude asks | "Staging published. Verify and publish to Production?" |
+| 13 | Claude | Trigger Publish: Production on release branch |
+
+### Watch Release Workflow
+
+After PR is merged, poll Release workflow status:
+
+```bash
+# Get latest Release workflow run
+gh run list --repo infinity-microsoft/labs-content --workflow "Release" --limit 1
+
+# Watch until complete
+gh run watch <run-id> --repo infinity-microsoft/labs-content
+```
+
+### Flowchart
+
 ```dot
 digraph content_update {
   rankdir=TB;
