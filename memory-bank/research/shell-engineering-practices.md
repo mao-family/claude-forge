@@ -21,6 +21,7 @@
 ## Research Project List
 
 ### Shell Projects
+
 | Project | Stars | Contributors | Commits | Language | Type |
 |---------|-------|--------------|---------|----------|------|
 | oh-my-zsh | 171k | 2400+ | 7711 | Zsh/Shell | Configuration Framework |
@@ -33,6 +34,7 @@
 | thoughtbot/dotfiles | 8.5k | 200+ | ~1000 | Shell/Vim | Configuration Management |
 
 ### Claude Code and AI Tool Configuration Projects
+
 | Project | Stars | Type | Primary Language | Features |
 |---------|-------|------|------------------|----------|
 | everything-claude-code | 55k | Rules/Skills Framework | Markdown/JS | Agent System |
@@ -48,7 +50,8 @@
 ### 1. Project Structure Dimension
 
 #### Oh-My-Zsh
-```
+
+```text
 ohmyzsh/
 ├── plugins/              # 300+ plugins
 ├── themes/               # 140+ themes
@@ -56,10 +59,12 @@ ohmyzsh/
 ├── tools/                # Installation scripts
 └── custom/               # User extensions
 ```
+
 **Features**: Highly modular, plugin isolation, easy to extend
 
 #### asdf
-```
+
+```text
 asdf/
 ├── bin/                  # CLI entry
 ├── lib/                  # Core library
@@ -69,10 +74,12 @@ asdf/
 ├── test/                 # Test suite
 └── docs/                 # Documentation
 ```
+
 **Features**: Clear layering, explicit API, easy to contribute
 
 #### everything-claude-code
-```
+
+```text
 everything-claude-code/
 ├── rules/                # Coding standards
 │   ├── common/          # Common rules
@@ -86,10 +93,12 @@ everything-claude-code/
 ├── hooks/                # Automation hooks
 └── .claude-plugin/       # Plugin manifest
 ```
+
 **Features**: Layered configuration, clear priority, strong automation
 
 #### superpowers
-```
+
+```text
 superpowers/
 ├── skills/               # 14 workflow skills
 ├── agents/               # code-reviewer.md
@@ -101,6 +110,7 @@ superpowers/
 ├── .codex/               # Codex configuration
 └── .opencode/            # OpenCode configuration
 ```
+
 **Features**: Cross-platform support, independent skills, hook-driven
 
 ---
@@ -109,7 +119,8 @@ superpowers/
 
 #### Shell Project Linting Standards
 
-**ShellCheck Integration (Widely Adopted)**
+#### ShellCheck Integration (Widely Adopted)
+
 ```bash
 # Common configuration (.shellcheckrc)
 disable=SC2086,SC2046          # Disable specific warnings
@@ -118,7 +129,8 @@ shell=bash                      # Specify shell dialect
 sourcepath=.                    # Source code path
 ```
 
-**Key Check Items**
+#### Key Check Items
+
 | Code | Issue | Fix |
 |------|-------|-----|
 | SC2086 | Unquoted variable word splitting | Use `"$var"` |
@@ -126,24 +138,28 @@ sourcepath=.                    # Source code path
 | SC2181 | Check exit code | Use `if cmd; then` |
 | SC2154 | Undefined variable | Check spelling |
 
-**Oh-My-Zsh Standards**
+#### Oh-My-Zsh Standards
+
 - Follow Zsh best practices
 - Plugin self-contained validation
 - Avoid global pollution
 
-**bash-it Standards**
+#### bash-it Standards
+
 - 97% Bash 3.2+ compatibility
 - `lint_clean_files.sh` automatic checking
 - Editor configuration (EditorConfig)
 
-**nvm Standards**
+#### nvm Standards
+
 - POSIX compatibility first
 - Cross-shell support (sh/bash/zsh/ksh)
 - Version check guards
 
 #### Claude Code Project Standards (everything-claude-code)
 
-**Common Principles (common/coding-style.md)**
+#### Common Principles (common/coding-style.md)
+
 ```markdown
 1. Immutability First (CRITICAL)
    - Always create new objects, never modify
@@ -162,7 +178,8 @@ sourcepath=.                    # Source code path
    - Validate all external input
 ```
 
-**TypeScript Specific Standards**
+#### TypeScript Specific Standards
+
 ```typescript
 // Spread for immutability
 const updated = { ...obj, field: newValue }
@@ -177,7 +194,8 @@ const schema = z.object({
 // Use proper logging framework
 ```
 
-**Python Specific Standards**
+#### Python Specific Standards
+
 ```python
 # PEP 8 + type annotations
 from dataclasses import dataclass
@@ -190,7 +208,8 @@ class User:
 # Tools: black, isort, ruff
 ```
 
-**Go Specific Standards**
+#### Go Specific Standards
+
 ```go
 // gofmt/goimports enforced
 // Accept interfaces, return structs
@@ -207,7 +226,8 @@ type Repository interface {
 
 #### Shell Formatting Standards (shfmt)
 
-**Common Configuration**
+#### Common Configuration
+
 ```bash
 # .editorconfig
 [*.sh]
@@ -226,14 +246,16 @@ insert_final_newline = true
 -s 2          # Spaces after semicolon
 ```
 
-**asdf Configuration Example**
+#### asdf Configuration Example
+
 - Code style consistency via CI checks
 - All scripts formatted with shfmt
 - EditorConfig enforced uniformity
 
 #### Claude Code Project Formatting
 
-**TypeScript (everything-claude-code)**
+#### TypeScript (everything-claude-code)
+
 ```yaml
 # hooks.md configuration
 - Prettier auto formatting
@@ -241,7 +263,8 @@ insert_final_newline = true
 - console.log warning
 ```
 
-**Python (everything-claude-code)**
+#### Python (everything-claude-code)
+
 ```yaml
 # Tool chain
 - black: code formatting
@@ -249,7 +272,8 @@ insert_final_newline = true
 - ruff: linter
 ```
 
-**Go (everything-claude-code)**
+#### Go (everything-claude-code)
+
 ```yaml
 # Enforced tools
 - gofmt: code formatting
@@ -263,7 +287,8 @@ insert_final_newline = true
 
 #### Shell Project Testing Framework Comparison
 
-**Bats-Core (Preferred for Simple Projects)**
+#### Bats-Core (Preferred for Simple Projects)
+
 ```bash
 #!/usr/bin/env bats
 
@@ -283,18 +308,14 @@ teardown() {
 }
 ```
 
-**Advantages**
-- Simple to use, gentle learning curve
-- Native Bash, no additional dependencies
-- TAP output standard
-- setup/teardown hooks
+##### Advantages
 
-**Disadvantages**
 - Relatively simple functionality
 - Limited assertions
 - No mock/stub support
 
-**ShellSpec (Preferred for Complex Projects)**
+#### ShellSpec (Preferred for Complex Projects)
+
 ```bash
 #!/usr/bin/env shellspec
 
@@ -315,20 +336,23 @@ Describe 'Math functions'
 End
 ```
 
-**Advantages**
+##### Advantages
+
 - Powerful DSL
 - Rich built-in matchers
 - Mock/Stub support
 - Parallel testing
 
-**Disadvantages**
+##### Disadvantages
+
 - Steep learning curve
 - Additional dependencies
 - Slightly slower performance
 
 #### Claude Code Project Testing Standards
 
-**everything-claude-code (testing.md)**
+#### everything-claude-code (testing.md)
+
 ```markdown
 ## Minimum Requirements
 
@@ -350,24 +374,22 @@ End
    - Swift: Swift Testing (5.9+)
 ```
 
-**superpowers (test-driven-development skill)**
+#### superpowers (test-driven-development skill)
+
 ```markdown
 ## Iron Law: RED-GREEN-REFACTOR
 
 1. RED: Write failing test
-   ```
+
    "This test will fail until feature is implemented"
-   ```
 
 2. GREEN: Minimal implementation
-   ```
+
    "Only code needed to pass test"
-   ```
 
 3. REFACTOR: Improve code
-   ```
+
    "Improve without changing behavior"
-   ```
 
 ## Counter-argument Counter
 - "Too simple": That's exactly when you need to test
@@ -381,7 +403,8 @@ End
 
 #### Shell Project CI/CD Configuration
 
-**Oh-My-Zsh / bash-it**
+#### Oh-My-Zsh / bash-it
+
 ```yaml
 name: Lint and Tests
 on: [push, pull_request]
@@ -406,7 +429,8 @@ jobs:
         run: bats tests/**/*.bats
 ```
 
-**asdf**
+#### asdf
+
 ```yaml
 # GitHub Actions workflows
 - Lint workflow: Code standards check
@@ -414,7 +438,8 @@ jobs:
 - Release-Please: Automatic semantic versioning and changelog
 ```
 
-**nvm**
+#### nvm
+
 ```yaml
 # Makefile driven
 - make test: Run test suite
@@ -425,7 +450,8 @@ jobs:
 
 #### Claude Code Project CI/CD
 
-**everything-claude-code**
+#### everything-claude-code
+
 ```markdown
 ## Integration Tools
 
@@ -445,7 +471,8 @@ jobs:
    - GitHub App integration
 ```
 
-**superpowers**
+#### superpowers
+
 ```markdown
 ## Hook System
 
@@ -468,7 +495,8 @@ jobs:
 
 #### Shell Project Documentation Standards
 
-**Function Documentation Template (Shell Best Practices)**
+#### Function Documentation Template (Shell Best Practices)
+
 ```bash
 ################################################################################
 # validate_email
@@ -503,7 +531,8 @@ validate_email() {
 }
 ```
 
-**Script Header Documentation Template**
+#### Script Header Documentation Template
+
 ```bash
 #!/usr/bin/env bash
 
@@ -539,8 +568,9 @@ validate_email() {
 ################################################################################
 ```
 
-**README Organization Structure (Common Standard)**
-```markdown
+#### README Organization Structure (Common Standard)
+
+````markdown
 # Project Name
 
 Brief description.
@@ -565,6 +595,7 @@ make install
 ## Usage
 
 ### Basic Example
+
 ./bin/main.sh --option value
 
 ## Testing
@@ -582,15 +613,17 @@ make format
 ```
 
 ## Contributing
+
 See CONTRIBUTING.md
 
 ## License
+
 MIT
-```
+````
 
-#### Claude Code Project Documentation Standards
+### Claude Code Project Documentation Standards
 
-**CLAUDE.md Framework (writing-claude-md SKILL)**
+#### CLAUDE.md Framework (writing-claude-md SKILL)
 
 ```markdown
 # {project-name}
@@ -614,7 +647,8 @@ MIT
 {Essential commands for build, test, run.}
 ```
 
-**Best Practices**
+#### Best Practices
+
 ```markdown
 1. Only include universally applicable content
    - Task-specific content is ignored
@@ -639,14 +673,16 @@ MIT
    - cat README.md | head -50
 ```
 
-**Target: < 100 lines**
+#### Target: < 100 lines
+
 - Too long documents are ignored
 - Task-specific details in separate files
 - Use "see docs/..." pointers
 
-#### Everything-Claude-Code Documentation Example
+### Everything-Claude-Code Documentation Example
 
-**development-workflow.md**
+#### development-workflow.md
+
 ```markdown
 ## Complete Feature Development Flow
 
@@ -669,20 +705,23 @@ MIT
 
 #### Shell Project Commit Standards
 
-**nvm Approach**
+#### nvm Approach
+
 - Use semantic versioning (semver)
 - Git tags: `v0.40.4`
 - CONTRIBUTING.md guides standards
 - Clear commit history
 
-**bash-it Approach**
+#### bash-it Approach
+
 - Mature governance with 401 contributors
 - Structured contribution guide
 - Code review process
 
 #### Claude Code Project Commit Standards
 
-**everything-claude-code (git-workflow.md)**
+#### everything-claude-code (git-workflow.md)
+
 ```markdown
 ## Commit Message Format
 
@@ -707,7 +746,8 @@ Use Conventional Commits:
    - Potential impact
 ```
 
-**superpowers Approach**
+#### superpowers Approach
+
 - Small, atomic commits
 - Frequent commits rather than batch
 - Clear change history
@@ -719,7 +759,8 @@ Use Conventional Commits:
 
 #### Shell Project Version Management
 
-**nvm Pattern**
+#### nvm Pattern
+
 ```bash
 # Semantic Versioning (Semver)
 v[MAJOR].[MINOR].[PATCH]
@@ -732,7 +773,8 @@ git rev-list --tags --max-count=1
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 ```
 
-**asdf Approach**
+#### asdf Approach
+
 ```markdown
 ## Version Management
 
@@ -751,7 +793,8 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 
 #### Claude Code Project Version Management
 
-**everything-claude-code**
+#### everything-claude-code
+
 ```markdown
 ## Version Strategy
 
@@ -768,7 +811,8 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
    Skills updates don't break dependencies
 ```
 
-**superpowers**
+#### superpowers
+
 ```markdown
 ## Version Management (v4.3.1)
 
@@ -791,7 +835,8 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 
 #### Shell Project Dependency Management
 
-**nvm Approach**
+#### nvm Approach
+
 ```bash
 # Minimal dependencies
 - curl or wget (installation)
@@ -803,7 +848,8 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 - No npm/pip dependencies
 ```
 
-**asdf Approach**
+#### asdf Approach
+
 ```bash
 # Core dependencies minimal
 - git
@@ -819,7 +865,8 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 .tool-versions file tracks all tool versions
 ```
 
-**oh-my-zsh Approach**
+#### oh-my-zsh Approach
+
 ```bash
 # Optional plugin dependencies
 - git (git plugin)
@@ -836,7 +883,8 @@ plugins=(git node python docker)
 
 #### Claude Code Project Dependency Management
 
-**everything-claude-code**
+#### everything-claude-code
+
 ```markdown
 ## Dependency Minimization
 
@@ -858,7 +906,8 @@ plugins=(git node python docker)
    - User chooses which to enable
 ```
 
-**superpowers**
+#### superpowers
+
 ```markdown
 ## Dependency Strategy
 
@@ -880,7 +929,8 @@ plugins=(git node python docker)
 
 #### Shell Project Security Practices
 
-**ShellCheck Security Checks**
+#### ShellCheck Security Checks
+
 ```bash
 # Key security rules
 SC2088  # Tilde expansion warning
@@ -893,7 +943,8 @@ SC2091  # Environment variable ignored
 enable=security-issues
 ```
 
-**Nvm Security Approach**
+#### Nvm Security Approach
+
 ```bash
 # Signature verification
 Git tag signing
@@ -908,7 +959,8 @@ PATH modification isolation
 Version switching isolation
 ```
 
-**POSIX Compatibility as Security**
+#### POSIX Compatibility as Security
+
 ```bash
 # asdf approach
 - Only use POSIX features
@@ -918,7 +970,8 @@ Version switching isolation
 
 #### Claude Code Project Security Practices
 
-**everything-claude-code (security.md)**
+#### everything-claude-code (security.md)
+
 ```markdown
 ## Pre-commit Security Checklist
 
@@ -951,7 +1004,8 @@ Version switching isolation
    - Login attempt limits
 ```
 
-**AgentShield Security Audit (everything-claude-code)**
+#### AgentShield Security Audit (everything-claude-code)
+
 ```markdown
 ## Automatic Security Scanning
 
@@ -972,7 +1026,8 @@ Version switching isolation
 - API key pattern recognition
 ```
 
-**superpowers Security Approach**
+#### superpowers Security Approach
+
 ```markdown
 ## Workflow Security
 
@@ -997,7 +1052,7 @@ Version switching isolation
 
 **Finding**: Most successful projects use layered configuration
 
-```
+```text
 Common Layer (common/)
   ↓
 Language Layer (typescript/, python/, golang/)
@@ -1006,11 +1061,13 @@ Project Layer (project-specific/)
 ```
 
 **Example**: everything-claude-code
+
 - `rules/common/` applies to all projects
 - `rules/typescript/` overrides TypeScript specific
 - `rules/swift/` adds Swift support
 
-**Benefits**
+#### Benefits
+
 - Less duplication, maximum reuse
 - Specific layers can override common layers
 - Easy to maintain and extend
@@ -1026,7 +1083,8 @@ Project Layer (project-specific/)
 | everything-claude-code | 56+ skills | Independent files | On-demand activation |
 | superpowers | 14 skills | Independent SKILL.md | Auto-activation |
 
-**Benefits**
+#### Benefits
+
 - Users only load what they need
 - Contributors can develop plugins independently
 - Version conflicts minimized
@@ -1035,7 +1093,8 @@ Project Layer (project-specific/)
 
 **Finding**: Modern projects use hooks as the core automation mechanism
 
-**Shell Projects (pre-commit)**
+#### Shell Projects (pre-commit)
+
 ```yaml
 repos:
   - repo: https://github.com/koalaman/shellcheck-py
@@ -1046,15 +1105,17 @@ repos:
       - id: shfmt
 ```
 
-**Claude Code Projects (hooks/)**
-```
+#### Claude Code Projects (hooks/)
+
+```text
 hooks/
 ├── PreToolUse      # Before tool execution
 ├── PostToolUse     # After tool execution
 └── SessionStart    # At session start
 ```
 
-**Benefits**
+#### Benefits
+
 - Developers don't need to remember commands
 - Automate all repetitive checks
 - Quality gates enforced
@@ -1070,7 +1131,8 @@ hooks/
 | everything-claude-code | 80% | TDD (RED-GREEN) | Rules enforced |
 | superpowers | N/A | Strict TDD | Skills enforced |
 
-**Key Insights**
+#### Key Insights
+
 - Projects without production environments still have integration tests
 - 80% coverage is the standard target
 - Code without tests is not accepted
@@ -1079,17 +1141,20 @@ hooks/
 
 **Finding**: Best practice projects treat documentation as executable declarations
 
-**Shell Projects**
+#### Shell Projects
+
 - README contains all command examples
 - Script header descriptions are standard
 - Every function has documentation blocks
 
-**Claude Code Projects**
+#### Claude Code Projects
+
 - skills/ is documentation and directives
 - CLAUDE.md is executable project conventions
 - Markdown can be directly parsed by tools
 
-**Benefits**
+#### Benefits
+
 - Documentation doesn't become stale
 - Automation tools can work based on them
 - Code review includes documentation review
@@ -1106,7 +1171,8 @@ v[MAJOR].[MINOR].[PATCH]
 Release-Please → Git tag → GitHub Release
 ```
 
-**Adopters**
+#### Adopters
+
 - asdf: Release-Please + CHANGELOG
 - nvm: Git tags + install script
 - everything-claude-code: Plugin marketplace versions
@@ -1122,7 +1188,8 @@ Release-Please → Git tag → GitHub Release
 | asdf | Linux, macOS, Windows (WSL) | POSIX shell |
 | superpowers | Claude, Cursor, Codex, OpenCode | Multiple manifests |
 
-**Implementation Strategy**
+#### Implementation Strategy
+
 - POSIX compatibility as baseline
 - Platform-specific shims
 - Windows uses Node.js polyglot wrapper
@@ -1131,7 +1198,8 @@ Release-Please → Git tag → GitHub Release
 
 **Finding**: AI tool projects enforce workflows, not just suggest them
 
-**superpowers Hard Gates**
+#### superpowers Hard Gates
+
 ```markdown
 # HARD GATE: Design must be approved before coding
 - Brainstorm → Design approval → Planning → Coding
@@ -1142,7 +1210,8 @@ Release-Please → Git tag → GitHub Release
 - Code first? Delete and start over.
 ```
 
-**Effects**
+#### Effects
+
 - Reduced rework
 - Improved design decisions
 - Team consistency
@@ -1151,21 +1220,24 @@ Release-Please → Git tag → GitHub Release
 
 **Finding**: The simplest-to-use projects have the most complex backend tool chains
 
-**oh-my-zsh User Experience**
+#### oh-my-zsh User Experience
+
 ```bash
 # Simple
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # Behind the scenes: install.sh handles git clone, .zshrc modification, shell restart
 ```
 
-**everything-claude-code User Experience**
+#### everything-claude-code User Experience
+
 ```bash
 # Simple
 /plugin install everything-claude-code
 # Behind the scenes: download, extract, activate rules, initialize skills, load agents
 ```
 
-**Benefits**
+#### Benefits
+
 - Low entry barrier
 - Complexity hidden in tools
 - Users only need 1 command
@@ -1174,14 +1246,16 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 **Finding**: All top projects deeply integrate with GitHub
 
-**Integration Points**
+#### Integration Points
+
 - Automatic Release management (Release-Please)
 - Workflows as CI/CD
 - Issues as task management
 - Discussions as Q&A community
 - Actions Marketplace as tool source
 
-**Significance**
+#### Significance
+
 - No external CI/CD tools
 - GitHub is SPOF (Single Point of Truth)
 - Configuration as code
@@ -1195,7 +1269,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 #### Best Practices
 
 1. **Modularity over Monolithic**
-   ```
+
+   ```text
    project/
    ├── core/          # Required functionality
    ├── plugins/       # Optional extensions
@@ -1210,7 +1285,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
    - Clear naming conventions
 
 3. **Configuration Separation**
-   ```
+
+   ```text
    config/
    ├── base/         # Common configuration
    ├── overrides/    # User overrides
@@ -1222,7 +1298,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 | Tool | Purpose | Configuration |
 |------|---------|---------------|
 | tree | Structure visualization | Ignore .git, node_modules |
-| find | Traversal validation | find . -name "*.sh" -o -name "*.md" |
+| find | Traversal validation | find . -name "_.sh" -o -name "_.md" |
 | shellcheck | Shell validation | .shellcheckrc |
 
 ---
@@ -1305,7 +1381,7 @@ indent_style = tab
 
 #### Testing Pyramid
 
-```
+```text
         /\
        /  \  E2E Tests (10%)
       /----\
@@ -1317,7 +1393,7 @@ indent_style = tab
 
 #### Shell Project Testing Decision Tree
 
-```
+```text
 Test complexity?
 ├─ Simple (<100 line script)
 │  └─ Use: Bats-core
@@ -1329,7 +1405,7 @@ Test complexity?
 
 #### Claude Code Project Testing Flow
 
-```
+```text
 Development Start
 │
 ├─ Write failing test (RED)
@@ -1483,7 +1559,7 @@ repos:
 
 #### README Structure Template
 
-```markdown
+````markdown
 # Project Title
 
 One-line description.
@@ -1552,7 +1628,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 ## License
 
 MIT
-```
+````
 
 ---
 
@@ -1560,7 +1636,7 @@ MIT
 
 #### Semantic Versioning Strategy
 
-```
+```text
 v[MAJOR].[MINOR].[PATCH][-PRERELEASE][+BUILD]
 
 v1.2.3        # Release version
@@ -1609,7 +1685,7 @@ docs: update readme
 
 #### Conventional Commits Standard
 
-```
+```text
 <type>[optional scope]: <description>
 
 [optional body]
@@ -1668,7 +1744,7 @@ exit 0
 
 #### Dependency Minimization Principle
 
-```
+```text
 Level 1 (Required)
   └─ Needed for project to run
 
@@ -1902,6 +1978,7 @@ code --install-extension timonwong.shellcheck
 ### Phase 1: Infrastructure (Week 1-2)
 
 1. **Project Structure**
+
    ```bash
    project/
    ├── bin/                    # Executable entry
@@ -1919,6 +1996,7 @@ code --install-extension timonwong.shellcheck
    ```
 
 2. **Initialize Git**
+
    ```bash
    git init
    git add .
@@ -1926,6 +2004,7 @@ code --install-extension timonwong.shellcheck
    ```
 
 3. **Configure Tools**
+
    ```bash
    # Install tools
    brew install shellcheck shfmt pre-commit
@@ -1937,6 +2016,7 @@ code --install-extension timonwong.shellcheck
 ### Phase 2: Code Quality (Week 3-4)
 
 1. **Configure ShellCheck**
+
    ```bash
    # .shellcheckrc
    disable=SC2086,SC2046  # Adjust per project
@@ -1945,12 +2025,14 @@ code --install-extension timonwong.shellcheck
    ```
 
 2. **Configure shfmt**
+
    ```bash
    # Run formatting
    shfmt -i 2 -w -r .
    ```
 
 3. **Set Code Standards**
+
    ```bash
    # Create CONTRIBUTING.md
    # Define commit standards
@@ -1964,6 +2046,7 @@ code --install-extension timonwong.shellcheck
    - Complex projects: ShellSpec
 
 2. **Write Tests**
+
    ```bash
    tests/
    ├── unit/
@@ -1977,6 +2060,7 @@ code --install-extension timonwong.shellcheck
    ```
 
 3. **Run Tests Locally**
+
    ```bash
    make test
    ```
@@ -1984,6 +2068,7 @@ code --install-extension timonwong.shellcheck
 ### Phase 4: CI/CD (Week 7-8)
 
 1. **GitHub Actions Workflow**
+
    ```yaml
    # .github/workflows/main.yml
    name: Quality & Tests
@@ -2020,7 +2105,8 @@ code --install-extension timonwong.shellcheck
    - PR process
 
 3. **docs/**
-   ```
+
+   ```text
    docs/
    ├── ARCHITECTURE.md
    ├── API.md
@@ -2031,6 +2117,7 @@ code --install-extension timonwong.shellcheck
 ### Phase 6: Version Management (Week 11-12)
 
 1. **Configure Release-Please** (Optional)
+
    ```yaml
    release-type: simple
    bump-minor-pre-major: false
@@ -2085,25 +2172,29 @@ code --install-extension timonwong.shellcheck
 
 ### Maturity Indicators
 
-**Level 1: Basic**
+#### Level 1: Basic
+
 - ✓ Code stored on GitHub
 - ✓ README.md exists
 - ✓ LICENSE file
 
-**Level 2: Standard**
+#### Level 2: Standard
+
 - ✓ Consistent code style (shfmt)
 - ✓ Code quality checks (shellcheck)
 - ✓ Basic tests exist
 - ✓ CONTRIBUTING.md
 
-**Level 3: Mature**
+#### Level 3: Mature
+
 - ✓ Complete CI/CD pipeline
 - ✓ 80%+ test coverage
 - ✓ Automated releases
 - ✓ Complete documentation
 - ✓ Security review process
 
-**Level 4: Excellent**
+#### Level 4: Excellent
+
 - ✓ Multi-platform support
 - ✓ Performance benchmarks
 - ✓ Community governance
@@ -2205,24 +2296,27 @@ git revert HEAD
 ## Reference Resources
 
 ### Official Documentation
-- ShellCheck: https://www.shellcheck.net/
-- shfmt: https://github.com/mvdan/sh
-- bats-core: https://github.com/bats-core/bats-core
-- GitHub Actions: https://docs.github.com/en/actions
+
+- ShellCheck: <https://www.shellcheck.net/>
+- shfmt: <https://github.com/mvdan/sh>
+- bats-core: <https://github.com/bats-core/bats-core>
+- GitHub Actions: <https://docs.github.com/en/actions>
 
 ### Project Repositories
-- oh-my-zsh: https://github.com/ohmyzsh/ohmyzsh
-- bash-it: https://github.com/bash-it/bash-it
-- nvm: https://github.com/nvm-sh/nvm
-- asdf: https://github.com/asdf-vm/asdf
-- everything-claude-code: https://github.com/affaan-m/everything-claude-code
-- superpowers: https://github.com/obra/superpowers
-- vibe-coding: https://github.com/EnzeD/vibe-coding
+
+- oh-my-zsh: <https://github.com/ohmyzsh/ohmyzsh>
+- bash-it: <https://github.com/bash-it/bash-it>
+- nvm: <https://github.com/nvm-sh/nvm>
+- asdf: <https://github.com/asdf-vm/asdf>
+- everything-claude-code: <https://github.com/affaan-m/everything-claude-code>
+- superpowers: <https://github.com/obra/superpowers>
+- vibe-coding: <https://github.com/EnzeD/vibe-coding>
 
 ### Standards and Specifications
-- Conventional Commits: https://www.conventionalcommits.org/
-- Semantic Versioning: https://semver.org/
-- OpenSSF Best Practices: https://www.bestpractices.dev/
+
+- Conventional Commits: <https://www.conventionalcommits.org/>
+- Semantic Versioning: <https://semver.org/>
+- OpenSSF Best Practices: <https://www.bestpractices.dev/>
 
 ---
 
