@@ -27,8 +27,8 @@ escape_for_json() {
   printf '%s' "${output}"
 }
 
-# Get current working directory
-CWD="${PWD}"
+# Get current working directory (resolve symlinks)
+CWD="$(cd "${PWD}" && pwd -P)"
 CONTEXT=""
 
 # Check if we're inside workspace/repos/{project}/
