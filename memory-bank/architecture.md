@@ -26,13 +26,23 @@ Located in `hooks/` (configuration) and `scripts/hooks/` (implementation):
 
 Located in `skills/`, workflow guides loaded on-demand:
 
+- **find-skills** - Guide for discovering and installing skills
+- **using-lint** - Rules for using lint tools correctly
 - **writing-claude-md** - Guide for creating CLAUDE.md files
 - **writing-docs** - Markdown style and progressive disclosure rules
-- **using-lint** - Rules for using lint tools correctly
 
 ### Agents
 
-Located in `agents/`, specialized sub-agents for specific tasks or domains.
+Located in `agents/`, specialized sub-agents for specific tasks or domains:
+
+- **Purpose**: Agents are autonomous Claude instances configured for specific workflows or domains
+- **Structure**: Each agent is a markdown file containing:
+  - Role and persona definition
+  - Specific capabilities and constraints
+  - Tool permissions and restrictions
+  - Domain knowledge and context
+- **Usage**: Invoked via `/agent {name}` or programmatically through multi-agent orchestration
+- **Examples**: Code reviewer agent, documentation writer agent, test generator agent
 
 ### Rules
 
