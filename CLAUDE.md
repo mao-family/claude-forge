@@ -13,6 +13,7 @@ Personal AI digital worker / AI clone powered by Claude Code.
 ## Knowledge Locations
 
 ### claude-me
+
 - `CLAUDE.md` - Global instructions (auto-loaded by Claude Code)
 - `memory-bank/` - claude-me project knowledge
 
@@ -30,7 +31,8 @@ Personal AI digital worker / AI clone powered by Claude Code.
 ## Directory Structure
 
 ### Repository
-```
+
+```text
 https://github.com/mao-family/claude-me
 ~/Repos/claude-me/
 ├── .claude-plugin/          # Plugin metadata
@@ -50,7 +52,8 @@ https://github.com/mao-family/claude-me
 ```
 
 ### Runtime
-```
+
+```text
 ~/.claude/
 ├── CLAUDE.md → claude-me
 ├── settings.json → claude-me

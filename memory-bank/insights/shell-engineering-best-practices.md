@@ -9,7 +9,7 @@
 
 ### 1. Layered Configuration Architecture is Optimal
 
-```
+```text
 Common Layer (common/) → Language Layer (typescript/, shell/) → Project Layer (local/)
 ```
 
@@ -18,6 +18,7 @@ Common Layer (common/) → Language Layer (typescript/, shell/) → Project Laye
 ### 2. Hook-Driven Automation > Manual Memory
 
 All top-tier projects use hook automation:
+
 - Shell: pre-commit hooks
 - Claude Code: SessionStart, PreToolUse, PostToolUse
 
@@ -155,7 +156,7 @@ module.exports = {
 
 ## Recommended Project Structure
 
-```
+```text
 claude-me/
 ├── .github/
 │   └── workflows/
@@ -196,33 +197,33 @@ claude-me/
 
 # Install dependencies
 install:
-	brew install shellcheck shfmt bats-core pre-commit
-	pre-commit install
-	pre-commit install --hook-type commit-msg
+ brew install shellcheck shfmt bats-core pre-commit
+ pre-commit install
+ pre-commit install --hook-type commit-msg
 
 # Lint code
 lint:
-	shellcheck -x hooks/*.sh scripts/*.sh tests/*.sh
+ shellcheck -x hooks/*.sh scripts/*.sh tests/*.sh
 
 # Format code
 format:
-	shfmt -i 2 -ci -w hooks/*.sh scripts/*.sh
+ shfmt -i 2 -ci -w hooks/*.sh scripts/*.sh
 
 # Format check (for CI)
 format-check:
-	shfmt -i 2 -ci -d hooks/*.sh scripts/*.sh
+ shfmt -i 2 -ci -d hooks/*.sh scripts/*.sh
 
 # Run tests
 test:
-	bats tests/*.bats
+ bats tests/*.bats
 
 # Markdown lint
 lint-md:
-	markdownlint "**/*.md"
+ markdownlint "**/*.md"
 
 # Full check
 check: lint format-check lint-md test
-	@echo "All checks passed!"
+ @echo "All checks passed!"
 
 # Default target
 all: check
