@@ -56,3 +56,31 @@ claude plugin marketplace update claude-me-marketplace
 ```
 
 Restart Claude Code.
+
+## Development
+
+### Prerequisites
+
+```bash
+brew install bats-core   # Testing framework
+```
+
+### Testing
+
+```bash
+# Run all tests
+bats tests/
+
+# Run specific test file
+bats tests/hooks.bats
+
+# Run with verbose output
+bats -t tests/
+```
+
+### Test Files
+
+| File | Description |
+|------|-------------|
+| `tests/hooks.bats` | Hook tests (project context, feature context) |
+| `tests/skills.bats` | Skill tests (requires claude CLI) |
