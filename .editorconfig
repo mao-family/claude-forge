@@ -1,14 +1,21 @@
 root = true
 
+# =============================================================================
+# Universal settings - apply to all files
+# =============================================================================
 [*]
 charset = utf-8
 end_of_line = lf
 indent_style = space
 indent_size = 2
+tab_width = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
-max_line_length = 120
+max_line_length = 100
 
+# =============================================================================
+# Shell scripts (shfmt reads these settings)
+# =============================================================================
 [*.sh]
 indent_style = space
 indent_size = 2
@@ -18,15 +25,72 @@ switch_case_indent = true
 space_redirects = true
 keep_padding = false
 function_next_line = false
+simplify = true
 
 [*.bats]
 indent_style = space
 indent_size = 2
 shell_variant = bats
+binary_next_line = true
+switch_case_indent = true
+space_redirects = true
 
+# =============================================================================
+# Configuration files
+# =============================================================================
+[*.{json,jsonc}]
+indent_style = space
+indent_size = 2
+
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+[*.toml]
+indent_style = space
+indent_size = 2
+
+# =============================================================================
+# Documentation
+# =============================================================================
 [*.md]
+# Preserve two-space line breaks in Markdown
 trim_trailing_whitespace = false
 max_line_length = off
 
+[*.txt]
+indent_style = space
+indent_size = 2
+
+# =============================================================================
+# Build files
+# =============================================================================
 [Makefile]
 indent_style = tab
+
+[*.mk]
+indent_style = tab
+
+# =============================================================================
+# Git
+# =============================================================================
+[.git*]
+indent_style = tab
+
+[.gitmodules]
+indent_style = tab
+
+# =============================================================================
+# EditorConfig and dotfiles
+# =============================================================================
+[.editorconfig]
+indent_style = space
+indent_size = 2
+
+[.*rc]
+indent_style = space
+indent_size = 2
+
+[.shellcheckrc]
+indent_style = space
+indent_size = 2
