@@ -215,7 +215,12 @@ When Studio's `src/schemas/labs-schemas.ts` changes:
 
 ## Disable/Enable Experiment
 
-Edit `settings.json`:
+### Ask User
+
+1. **Which experiment?** (show list of current experiments)
+2. **Disable or enable?**
+
+### Then Edit settings.json
 
 ```json
 {
@@ -230,7 +235,33 @@ Edit `settings.json`:
 
 **Note**: Disabling keeps content intact, just excludes from dist output.
 
+## Modify Experiment
+
+### Ask User
+
+1. **Which experiment?** (show list of current experiments)
+2. **What to modify?**
+   - Title/description
+   - Landing page content
+   - Links (Try Now button URL)
+   - Status (UPCOMING → LIVE → GRADUATED)
+   - Other
+
+### Then Edit the Appropriate File
+
+| Change | File to Edit |
+|--------|--------------|
+| Title, description, links, status | `metadata.json` |
+| Landing page content | `landing-page.md` |
+
 ## Update Covers/Media
+
+### Ask User
+
+1. **Which experiment?** (show list of current experiments)
+2. **New image/video or change existing URL?**
+   - **New file**: Place in `content/original/{exp}/`, update metadata.json
+   - **Change URL**: Only update metadata.json
 
 Covers are images or videos displayed on homepage and landing pages.
 
