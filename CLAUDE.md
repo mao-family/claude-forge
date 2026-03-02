@@ -49,6 +49,9 @@ https://github.com/mao-family/claude-me
 │   └── lint/                # Lint helper scripts
 ├── tests/                   # Bats test files
 ├── memory-bank/             # Project knowledge
+│   ├── *.md                 # Architecture, stack, lint docs
+│   ├── references/          # External research (third-party projects)
+│   └── insights/            # Synthesized insights (from research)
 ├── workspace/
 │   ├── repos/{project}/     # Child project repositories
 │   └── memory-bank/{project}/ # Child project knowledge
