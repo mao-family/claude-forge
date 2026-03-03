@@ -1,8 +1,3 @@
----
-name: writing-docs
-description: Guide for writing documentation with Markdown style and progressive disclosure. Use when creating or editing any .md file including README, CLAUDE.md, memory-bank/, or rules/. Ensures proper formatting, hierarchy, and no content duplication.
----
-
 # Writing Documentation
 
 ## Progressive Disclosure

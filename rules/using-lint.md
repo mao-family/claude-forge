@@ -1,8 +1,3 @@
----
-name: using-lint
-description: Use when adding eslint-disable, shellcheck disable, or similar lint suppression comments. Also use when considering --no-verify, modifying .eslintrc/.shellcheckrc, or adding global lint rule exceptions.
----
-
 # Using Lint Tools
 
 ## Never Disable Without Justification
