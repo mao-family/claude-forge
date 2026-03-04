@@ -1,5 +1,14 @@
 # Using Lint Tools
 
+## Disable is Last Resort
+
+**Before disabling any lint rule:**
+
+1. **First try to fix the issue** - Most lint errors have straightforward fixes
+2. **Check if auto-fix is available** - Run `bun run lint:markdown` or similar
+3. **Only disable if truly unfixable** - Structural issues that cannot be resolved
+4. **Always tell the user** - Inform the user when you need to disable a rule and why
+
 ## Never Disable Without Justification
 
 **Every disable must have:**
