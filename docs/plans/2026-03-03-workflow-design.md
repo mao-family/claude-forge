@@ -17,7 +17,11 @@
 
 ## Overview
 
-Create claude-me's own development workflow system, replacing superpowers plugin. Combines superpowers (Skill-Centric process control) and everything-claude-code (specialized Agents) design philosophies.
+Create claude-me's own development workflow system, replacing superpowers plugin. Combines:
+
+- **superpowers** - Skill-centric process control
+- **everything-claude-code** - Specialized agents with tools/model restrictions
+- **planning-with-files** - Context engineering (filesystem as memory, error protocols)
 
 ## Goals
 
