@@ -2019,6 +2019,149 @@ Also output `final-review.md`:
 
 ---
 
+### Project Expert Agents
+
+Project expert agents are specialized agents that know a specific project's codebase, patterns, and conventions. They help other agents (planner, implementer) find existing patterns to reuse.
+
+#### 10. studio-expert (Example)
+
+**File:** `agents/studio-expert.md`
+
+**Responsibility:** Studio project expert - knows codebase patterns, conventions, and where to find similar implementations
+
+```markdown
+---
+name: studio-expert
+description: Studio project expert - knows codebase patterns, conventions, and where to find similar implementations
+tools: ["Read", "Grep", "Glob"]
+model: haiku
+---
+
+You are the Studio project expert. Your job is to help other agents find existing patterns to reuse.
+
+## Project Overview
+
+Studio is a multi-surface React application (web, Edge sidebar, Edge NTP, Windows app).
+
+**Stack:** React 19, TypeScript (strict), React Query, Tanstack Router, Tailwind CSS V3, Vite
+
+## Directory Structure
+
+| Path | Purpose |
+|------|---------|
+| `src/features/` | Feature modules (composer, sidebar, home) |
+| `src/components/` | Shared UI components |
+| `src/hooks/` | Custom React hooks |
+| `src/utils/` | Utility functions |
+| `src/services/` | API services |
+| `tests/unit/` | Unit tests (Vitest) |
+| `tests/e2e/` | E2E tests (Playwright) |
+
+## Key Patterns
+
+### Components
+
+- Location: `src/components/{Name}/{Name}.tsx`
+- Index: `src/components/{Name}/index.ts`
+- Tests: `tests/unit/components/{Name}.test.tsx`
+
+### Hooks
+
+- Location: `src/hooks/use{Name}.ts`
+- Tests: `tests/unit/hooks/use{Name}.test.ts`
+
+### Features
+
+- Location: `src/features/{name}/`
+- Components: `src/features/{name}/components/`
+- Hooks: `src/features/{name}/hooks/`
+
+## Surface System
+
+Studio has multiple surfaces requiring `--surface=<surface>` flag:
+
+- `cmc` - Main web app (default)
+- `ntp` - Edge New Tab Page
+- `sidebar` - Edge sidebar
+- `windows` - Windows app
+
+## TypeScript Rules
+
+- **Never use `as` type casts**
+- Strict mode enabled
+- Prefer type inference
+
+## When Called
+
+1. **Search** for similar implementations in the codebase
+2. **Return** patterns found, files to reference, conventions to follow
+3. **Recommend** which existing code to reuse or extend
+
+## Example Response
+
+```text
+Found similar patterns:
+
+1. **Component pattern:** `src/components/Modal/Modal.tsx`
+   - Uses same structure you need
+   - Reuse: `useModal` hook, animation pattern
+
+2. **Hook pattern:** `src/hooks/useAuth.ts`
+   - Similar data fetching pattern
+   - Reuse: error handling, loading states
+
+3. **Test pattern:** `tests/unit/components/Button.test.tsx`
+   - Follow same testing structure
+   - Use same mocking approach
+
+Conventions to follow:
+- File naming: PascalCase for components
+- Test files: `.test.tsx` suffix
+- Exports: Use index.ts barrel files
+```
+
+```
+
+#### Creating New Project Experts
+
+To create a new project expert:
+
+1. **Create agent file:** `agents/{project}-expert.md`
+2. **Document structure:** Directory layout, key modules
+3. **Document patterns:** Component, hook, test conventions
+4. **Document constraints:** Project-specific rules
+5. **Add to workflow:** Update planner to invoke when working on that project
+
+**Template:**
+
+```markdown
+---
+name: {project}-expert
+description: {Project} expert - knows codebase patterns and conventions
+tools: ["Read", "Grep", "Glob"]
+model: haiku
+---
+
+## Project Overview
+[Brief description, stack]
+
+## Directory Structure
+[Key directories and purposes]
+
+## Key Patterns
+[Component, hook, test patterns]
+
+## Project-Specific Rules
+[Constraints, conventions]
+
+## When Called
+1. Search for similar implementations
+2. Return patterns, files, conventions
+3. Recommend code to reuse
+```
+
+---
+
 ## Directory Structure
 
 ```text
@@ -2047,7 +2190,8 @@ claude-me/
 |   |-- typescript-reviewer.md # Review team (haiku, read-only)
 |   |-- react-reviewer.md      # Review team (haiku, read-only)
 |   |-- style-reviewer.md      # Review team (haiku, read-only)
-|   +-- review-aggregator.md   # Review team (sonnet, read-only)
+|   |-- review-aggregator.md   # Review team (sonnet, read-only)
+|   +-- {project}-expert.md    # Project experts (haiku, read-only)
 |
 +-- features/                   # Feature development files
     +-- {feature-name}/
@@ -2136,6 +2280,7 @@ workspace/memory-bank/{project}/
 | `react-reviewer` | Review | haiku | Read-only | React patterns |
 | `style-reviewer` | Review | haiku | Read-only | Naming/style |
 | `review-aggregator` | Review | sonnet | Read-only | Aggregate results |
+| `{project}-expert` | Plan/Execute | haiku | Read-only | Project patterns & conventions |
 
 ---
 
