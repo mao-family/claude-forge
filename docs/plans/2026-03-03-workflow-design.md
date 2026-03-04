@@ -432,9 +432,64 @@ Write comprehensive implementation plans assuming the engineer has zero context 
 - claude-me: `memory-bank/features/{feature}/plan.md`
 - Child projects: `workspace/memory-bank/{project}/features/{feature}/plan.md`
 
+## Key Principles
+
+- **Reuse existing patterns** - Search codebase for similar implementations before writing new code
+- **Consistency first** - Match existing naming, structure, and style
+- **DRY** - Don't repeat what already exists; extend or import
+- **YAGNI** - Only implement what's in the design
+- **TDD** - Every task includes test-first approach
+
+## Checklist
+
+You MUST complete these steps in order:
+
+1. **Read design doc** - Understand what to build
+2. **Search for similar implementations** - Find existing patterns in codebase
+3. **Identify reusable code** - List components/utilities that can be reused
+4. **Define task breakdown** - 2-5 minute granularity
+5. **Write complete code** - Reference existing patterns
+6. **Save plan** - Commit to features/{feature}/plan.md
+
+## Search for Existing Patterns
+
+**Before writing any task, search the codebase:**
+
+```bash
+# Find similar functionality
+grep -r "similar_function" src/
+
+# Find related files
+find . -name "*related*" -type f
+
+# Check existing patterns
+glob "src/**/*.ts" | xargs grep "pattern"
+```
+
+**What to search for:**
+
+| Question | Search For |
+|----------|------------|
+| How do similar features work? | Existing implementations |
+| Where should new files go? | Directory structure patterns |
+| What naming convention? | Existing file/function names |
+| How to test this? | Similar test files |
+| What utilities exist? | Shared helpers, hooks, components |
+
+**Document findings in plan header:**
+
+```markdown
+## Existing Patterns Referenced
+
+- `src/hooks/useAuth.ts` - Similar hook pattern
+- `src/components/Modal/` - Component structure to follow
+- `tests/unit/hooks/` - Test file location and style
+```
+
 ## Bite-Sized Task Granularity
 
 **Each step is one action (2-5 minutes):**
+
 - "Write the failing test" - step
 - "Run it to make sure it fails" - step
 - "Implement the minimal code to make the test pass" - step
@@ -497,7 +552,7 @@ git commit -m "feat: add specific feature"
 
 ## Invoking Planner Agent
 
-For complex task breakdown:
+For complex task breakdown, invoke planner agent with **explicit reuse instructions**:
 
 ```text
 Task tool:
@@ -506,11 +561,44 @@ Task tool:
     You are the planner agent. Break down this feature:
     [design doc content]
 
+    CRITICAL - Search and Reuse:
+    1. Search codebase for similar implementations FIRST
+    2. Find existing patterns, utilities, components to reuse
+    3. Reference existing code in your tasks (file paths, function names)
+    4. Match existing naming conventions and directory structure
+    5. Only create new code when no existing solution fits
+
     Create tasks with:
     - 2-5 minute granularity
-    - Exact file paths
-    - Complete code
+    - Exact file paths (based on existing patterns)
+    - Complete code (following existing style)
     - Dependencies between tasks
+    - References to existing code being extended/reused
+```
+
+## Reuse Examples
+
+**Bad (ignores existing code):**
+```markdown
+### Task 1: Create Modal Component
+Create a new modal component from scratch...
+```
+
+**Good (references existing patterns):**
+```markdown
+### Task 1: Create ConfirmDialog Component
+
+**Reference:** Based on `src/components/Modal/Modal.tsx` pattern
+
+**Files:**
+- Create: `src/components/ConfirmDialog/ConfirmDialog.tsx`
+- Create: `src/components/ConfirmDialog/index.ts`
+- Test: `tests/components/ConfirmDialog.test.tsx`
+
+**Reusing:**
+- `useModal` hook from `src/hooks/useModal.ts`
+- `Button` component from `src/components/Button`
+- Modal animation pattern from existing Modal
 ```
 
 ## Phase Structure
@@ -526,6 +614,9 @@ Each phase should be mergeable independently.
 
 ## Remember
 
+- **Search before writing** - Find existing patterns first
+- **Reuse over recreate** - Extend existing code when possible
+- **Reference existing code** - Include file paths to patterns being followed
 - Exact file paths always
 - Complete code in plan (not "add validation")
 - Exact commands with expected output
@@ -1273,38 +1364,72 @@ model: sonnet
 
 You are an expert planning specialist focused on creating comprehensive, actionable implementation plans.
 
+## Core Principle: Reuse First
+
+**Before writing ANY new code, search the codebase for existing patterns.**
+
+Large projects (like studio) have established patterns. Your job is to find and follow them, not invent new ones.
+
 ## Your Role
 
+- **Search for existing patterns** - Find similar implementations first
 - Analyze requirements and create detailed plans
 - Break down features into 2-5 minute tasks
+- **Reference existing code** - Include paths to patterns being followed
 - Identify dependencies and risks
 - Suggest optimal implementation order
-- Consider edge cases and error scenarios
 
 ## Planning Process
 
-### 1. Requirements Analysis
+### 1. Search for Similar Implementations
+
+**CRITICAL FIRST STEP:**
+
+```bash
+# Find similar features
+grep -r "similar_keyword" src/
+
+# Find related components
+glob "src/**/*Related*.tsx"
+
+# Check how similar things are tested
+grep -r "describe.*Similar" tests/
+```
+
+Document what you find:
+
+- Existing patterns to follow
+- Utilities/hooks to reuse
+- Directory structure to match
+- Naming conventions to follow
+
+### 2. Requirements Analysis
+
 - Understand the feature completely
 - Identify success criteria
 - List assumptions and constraints
 
-### 2. Architecture Review
+### 3. Architecture Review
+
 - Analyze existing codebase structure
 - Identify affected components
-- Review similar implementations
+- **Map to existing patterns found in Step 1**
 
-### 3. Task Breakdown
+### 4. Task Breakdown
 
 Create tasks with:
+
 - Clear, specific actions (2-5 minutes each)
 - Exact file paths
 - Complete code (not placeholders)
 - Dependencies between tasks
 - TDD steps: test -> fail -> implement -> pass -> commit
+- **Reference to existing patterns being followed**
 
-### 4. Phase Structure
+### 5. Phase Structure
 
 For large features:
+
 - **Phase 1**: Minimum viable - smallest useful slice
 - **Phase 2**: Core experience - complete happy path
 - **Phase 3**: Edge cases - error handling, polish
