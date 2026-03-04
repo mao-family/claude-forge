@@ -6,6 +6,12 @@
 
 **Status:** Draft
 
+**References:**
+
+- [superpowers](https://github.com/obra/superpowers) - Skill-centric workflow
+- [everything-claude-code](https://github.com/affaan-m/everything-claude-code) - Specialized agents
+- [planning-with-files](https://github.com/OthmanAdi/planning-with-files) - Context engineering
+
 ---
 
 ## Overview
@@ -39,56 +45,54 @@ Create claude-me's own development workflow system, replacing superpowers plugin
 |  | design approved|   | + exact paths  |   |                |           |
 |  +-------+--------+   +-------+--------+   +-------+--------+           |
 |          |                    |                    |                    |
-|          | invoke             | invoke             | dispatch per task  |
+|          | dispatch           | dispatch           | dispatch per task  |
 |          v                    v                    v                    |
-|     architect.md         planner.md    +----------------------+         |
-|     (opus, read-only)    (sonnet,      | implementer.md       |         |
-|                          read-only)    | review-team (parallel)|         |
-|                                        +----------+-----------+         |
-|                                                   |                     |
-|                                                   v                     |
-|                                        +----------------+               |
-|                                        |finishing-branch|               |
-|                                        | merge/PR/discard|               |
-|                                        +----------------+               |
+|     architect agent      planner agent   +----------------------+       |
+|     (opus, read-only)    (sonnet,        | implementer agent    |       |
+|                          read-only)      | review-team (parallel)|       |
+|                                          +----------+-----------+       |
+|                                                     |                   |
+|                                                     v                   |
+|                                          +----------------+             |
+|                                          |finishing-branch|             |
+|                                          | merge/PR/discard|             |
+|                                          +----------------+             |
 +-------------------------------------------------------------------------+
 ```
 
 ### Review Team Architecture (Agent Teams - Parallel)
 
 ```text
-Task 完成 (implementer)
+Task complete (implementer)
          |
          v
 +-------------------------------------------------------------------------+
-|                     Review Team (Agent Teams - 并行执行)                 |
+|                     Review Team (Agent Teams - Parallel)                |
 +-------------------------------------------------------------------------+
 |                                                                         |
-|  +---------------+ +---------------+ +---------------+ +---------------+|
-|  |spec-reviewer  | |code-reviewer  | | ts-reviewer   | |react-reviewer ||
-|  |   (haiku)     | |   (sonnet)    | |   (haiku)     | |   (haiku)     ||
-|  +-------+-------+ +-------+-------+ +-------+-------+ +-------+-------+|
-|          |                 |                 |                 |        |
-|          |    +------------+                 |                 |        |
-|          |    |  +--------------------------+                  |        |
-|          |    |  |  +------------------------------------------+        |
-|          v    v  v  v                                                   |
-|  +---------------+ +---------------+                                    |
-|  |style-reviewer | |    ...        |                                    |
-|  |   (haiku)     | |               |                                    |
-|  +-------+-------+ +-------+-------+                                    |
-|          |                 |                                            |
-|          +--------+--------+                                            |
-|                   |                                                     |
-|                   v                                                     |
-|          +------------------+                                           |
-|          |review-aggregator |                                           |
-|          |    (sonnet)      |                                           |
-|          +--------+---------+                                           |
-|                   |                                                     |
-|                   v                                                     |
-|          Pass? -> 下一个 task                                            |
-|          Fail? -> implementer 修复 -> 重新 review                        |
+|  All reviewers run in parallel:                                         |
+|                                                                         |
+|  +---------------+ +---------------+ +---------------+                  |
+|  |spec-reviewer  | |code-reviewer  | |style-reviewer |                  |
+|  |   (haiku)     | |   (sonnet)    | |   (haiku)     |                  |
+|  +-------+-------+ +-------+-------+ +-------+-------+                  |
+|          |                 |                 |                          |
+|  +-------+-------+ +-------+-------+         |                          |
+|  | ts-reviewer   | |react-reviewer |         |                          |
+|  |   (haiku)     | |   (haiku)     |         |                          |
+|  +-------+-------+ +-------+-------+         |                          |
+|          |                 |                 |                          |
+|          +-----------------+-----------------+                          |
+|                            |                                            |
+|                            v                                            |
+|                   +------------------+                                  |
+|                   |review-aggregator |                                  |
+|                   |    (sonnet)      |                                  |
+|                   +--------+---------+                                  |
+|                            |                                            |
+|                            v                                            |
+|                   Pass? -> next task                                    |
+|                   Fail? -> implementer fixes -> re-review               |
 +-------------------------------------------------------------------------+
 ```
 
@@ -111,7 +115,7 @@ User: "I want to add a new feature"
 | - Ask clarifying questions one at a time                                |
 | - Propose 2-3 approaches + trade-offs                                   |
 | - Present design in sections, get approval per section                  |
-| - Output: docs/plans/YYYY-MM-DD-<topic>-design.md                       |
+| - Output: features/{feature}/design.md                                  |
 | - Can invoke: architect agent (complex architecture decisions)          |
 +-------------------------------------------------------------------------+
          | design approved
@@ -121,7 +125,7 @@ User: "I want to add a new feature"
 | - Create implementation plan based on design doc                        |
 | - Task granularity: 2-5 minutes                                         |
 | - Each task: exact paths, complete code, test commands, expected output |
-| - Output: docs/plans/YYYY-MM-DD-<topic>-plan.md                         |
+| - Output: features/{feature}/plan.md                                    |
 | - Can invoke: planner agent (complex task breakdown)                    |
 +-------------------------------------------------------------------------+
          | plan approved
@@ -134,7 +138,7 @@ User: "I want to add a new feature"
 |   2. Dispatch review team (parallel via Agent Teams):                   |
 |      - spec-reviewer, code-reviewer, ts-reviewer                        |
 |      - react-reviewer, style-reviewer                                   |
-|   3. Dispatch review-aggregator (汇总所有 review 结果)                   |
+|   3. Dispatch review-aggregator (aggregate all review results)          |
 |   4. If passed, mark complete, next task                                |
 |   5. If failed, implementer fixes, re-run review team                   |
 | - All tasks done -> enter finishing                                     |
@@ -254,7 +258,7 @@ You MUST create a task for each of these items and complete them in order:
 2. **Ask clarifying questions** - one at a time, understand purpose/constraints/success criteria
 3. **Propose 2-3 approaches** - with trade-offs and your recommendation
 4. **Present design** - in sections, get user approval after each section
-5. **Write design doc** - save to `docs/plans/YYYY-MM-DD-<topic>-design.md` and commit
+5. **Write design doc** - save to `features/{feature}/design.md` and commit
 6. **Transition to planning** - invoke writing-plans skill
 
 ## Process Flow
@@ -313,7 +317,9 @@ Task tool:
 
 **Documentation:**
 
-- Write the validated design to `docs/plans/YYYY-MM-DD-<topic>-design.md`
+- Write the validated design to:
+  - claude-me: `memory-bank/features/{feature}/design.md`
+  - Child projects: `workspace/memory-bank/{project}/features/{feature}/design.md`
 - Commit the design document to git
 
 **Implementation:**
@@ -355,7 +361,10 @@ Write comprehensive implementation plans assuming the engineer has zero context 
 
 **Announce at start:** "Using writing-plans skill to create the implementation plan."
 
-**Save plans to:** `docs/plans/YYYY-MM-DD-<feature-name>-plan.md`
+**Save plans to:**
+
+- claude-me: `memory-bank/features/{feature}/plan.md`
+- Child projects: `workspace/memory-bank/{project}/features/{feature}/plan.md`
 
 ## Bite-Sized Task Granularity
 
@@ -478,9 +487,9 @@ Then invoke `executing-plans` skill.
 
 **File:** `skills/executing-plans/skill.md`
 
-**Responsibility:** Execute plan, dispatch agent per task
+**Responsibility:** Execute plan, dispatch agent per task, maintain findings.md and progress.md
 
-**Reference:** superpowers `subagent-driven-development`
+**Reference:** superpowers `subagent-driven-development` + [planning-with-files](https://github.com/OthmanAdi/planning-with-files)
 
 ```markdown
 ---
@@ -496,13 +505,22 @@ Execute plan by dispatching fresh subagent per task, with parallel review team a
 
 ## Prerequisites
 
-- Implementation plan exists in `docs/plans/`
+- Implementation plan exists in `features/{feature}/plan.md`
 - Git worktree created for isolation (optional but recommended)
+
+## Initialization
+
+Before starting execution, create tracking files:
+
+1. **Create `findings.md`** - for discoveries and decisions
+2. **Create `progress.md`** - for session log and status
+
+These files live in `features/{feature}/` alongside design.md and plan.md.
 
 ## The Process
 
 ```text
-Read plan, create TodoWrite with all tasks
+Read plan, create findings.md + progress.md
         |
         v
 +---------------------------------------+
@@ -510,6 +528,7 @@ Read plan, create TodoWrite with all tasks
 | 1. Dispatch implementer agent         |
 |    - Follows TDD (RED-GREEN-REFACTOR) |
 |    - Self-reviews before handoff      |
+|    - Updates findings.md on discovery |
 |                                       |
 | 2. Dispatch review team (parallel):   |
 |    - spec-reviewer (haiku)            |
@@ -524,6 +543,7 @@ Read plan, create TodoWrite with all tasks
 |    - Outputs summary report           |
 |                                       |
 | 4. If PASS: mark task complete        |
+|             update progress.md        |
 |    If FAIL: implementer fixes         |
 |             -> re-run review team     |
 +---------------------------------------+
@@ -531,6 +551,46 @@ Read plan, create TodoWrite with all tasks
         v
 All tasks done -> Invoke finishing-branch skill
 ```
+
+## Context Engineering Rules
+
+### 3-Strike Error Protocol
+
+```text
+ATTEMPT 1: Diagnose & Fix
+  → Read error carefully
+  → Apply targeted fix
+  → Log to progress.md
+
+ATTEMPT 2: Alternative Approach
+  → Try different method
+  → Log to findings.md
+
+ATTEMPT 3: Broader Rethink
+  → Question assumptions
+  → Consider plan update
+
+AFTER 3 FAILURES: Escalate to User
+```
+
+**Key rule:** `next_action != same_action` (never repeat failing action)
+
+### 2-Action Rule
+
+After every 2 view/browser/search operations:
+→ IMMEDIATELY save key findings to findings.md
+
+### Read Before Decide
+
+Before major decisions, re-read plan.md to keep goals in attention window.
+
+### Update After Act
+
+After completing any phase:
+
+- Mark phase status: pending → in_progress → complete
+- Log errors encountered
+- Note files created/modified
 
 ## Review Output Schema
 
@@ -1548,9 +1608,54 @@ claude-me/
 |   |-- style-reviewer.md      # Review team (haiku, read-only)
 |   +-- review-aggregator.md   # Review team (sonnet, read-only)
 |
-+-- docs/
-    +-- plans/
-        +-- (design.md and plan.md files)
++-- features/                   # Feature development files
+    +-- {feature-name}/
+        |-- design.md           # Design doc (brainstorming output)
+        |-- plan.md             # Implementation plan (writing-plans output)
+        |-- findings.md         # Discoveries and decisions (execution)
+        +-- progress.md         # Session log and progress (execution)
+```
+
+### Feature Files (4-File Pattern)
+
+Inspired by [planning-with-files](https://github.com/OthmanAdi/planning-with-files):
+
+| File | Purpose | Created By | Updated By |
+|------|---------|------------|------------|
+| `design.md` | Requirements, architecture, design decisions | brainstorming skill | - |
+| `plan.md` | Task breakdown with 2-5 min granularity | writing-plans skill | - |
+| `findings.md` | Research discoveries, technical decisions, issues | executing-plans | Throughout execution |
+| `progress.md` | Session log, phase status, test results, errors | executing-plans | After each phase |
+
+### File Lifecycle
+
+```text
+Feature branch created
+        |
+        v
+features/{name}/
+├── design.md      <- brainstorming skill creates
+├── plan.md        <- writing-plans skill creates
+├── findings.md    <- executing-plans skill creates
+└── progress.md    <- executing-plans skill creates
+        |
+        v
+Merge to main -> Files remain in features/{name}/
+                 (preserved for reference, git manages history)
+```
+
+### Child Project Structure
+
+For `workspace/repos/{project}/`:
+
+```text
+workspace/memory-bank/{project}/
++-- features/
+    +-- {feature-name}/
+        |-- design.md
+        |-- plan.md
+        |-- findings.md
+        +-- progress.md
 ```
 
 ---
@@ -1599,3 +1704,283 @@ After implementation:
 1. Uninstall superpowers plugin
 2. claude-me skills fully replace its functionality
 3. Maintain same enforcement level (1% chance = MUST invoke)
+
+---
+
+## Hook System
+
+### Overview
+
+Hooks provide automatic context management throughout the development cycle.
+
+### SessionStart Hook
+
+**Trigger:** Session begins
+
+**Behavior:**
+
+1. Detect current project (claude-me vs child project)
+2. Detect current branch (main vs feature/*)
+3. Load relevant planning files
+
+```bash
+#!/usr/bin/env bash
+# Simplified logic - full implementation in scripts/hooks/
+
+branch=$(git branch --show-current 2>/dev/null)
+cwd=$(pwd)
+
+# Determine base directory for planning files
+if [[ "${cwd}" == */workspace/repos/* ]]; then
+  project=$(echo "${cwd}" | sed 's|.*/workspace/repos/\([^/]*\).*|\1|')
+  base_dir="workspace/memory-bank/${project}"
+else
+  base_dir="memory-bank"
+fi
+
+# Load feature-specific files if on feature branch
+if [[ "${branch}" == feature/* ]]; then
+  feature_name="${branch#feature/}"
+  feature_dir="${base_dir}/features/${feature_name}"
+
+  for file in design.md plan.md findings.md progress.md; do
+    [[ -f "${feature_dir}/${file}" ]] && cat "${feature_dir}/${file}"
+  done
+fi
+```
+
+### PreToolUse Hook
+
+**Trigger:** Before Write/Edit/Bash operations
+
+**Purpose:** Keep goals in attention window before major decisions
+
+**Behavior:** Read first 30 lines of plan.md
+
+```yaml
+PreToolUse:
+  - matcher: "Write|Edit|Bash"
+    hooks:
+      - type: command
+        command: |
+          branch=$(git branch --show-current 2>/dev/null)
+          if [[ "${branch}" == feature/* ]]; then
+            feature_name="${branch#feature/}"
+            plan_file="features/${feature_name}/plan.md"
+            [[ -f "${plan_file}" ]] && head -30 "${plan_file}"
+          fi
+```
+
+### PostToolUse Hook
+
+**Trigger:** After Write/Edit operations
+
+**Purpose:** Remind to update progress tracking
+
+```yaml
+PostToolUse:
+  - matcher: "Write|Edit"
+    hooks:
+      - type: command
+        command: "echo '[workflow] File updated. Remember to update progress.md if this completes a step.'"
+```
+
+### Stop Hook
+
+**Trigger:** Before session ends
+
+**Purpose:** Verify task completion status
+
+**Behavior:**
+
+1. Count total phases in plan.md
+2. Count completed phases
+3. If incomplete, prompt to continue
+
+```bash
+#!/usr/bin/env bash
+branch=$(git branch --show-current 2>/dev/null)
+if [[ "${branch}" != feature/* ]]; then
+  exit 0  # Not on feature branch, allow stop
+fi
+
+feature_name="${branch#feature/}"
+plan_file="features/${feature_name}/plan.md"
+
+if [[ ! -f "${plan_file}" ]]; then
+  exit 0  # No plan file, allow stop
+fi
+
+total=$(grep -c "### Task" "${plan_file}" || true)
+complete=$(grep -c "\\[x\\]" "${plan_file}" || true)
+
+if (( complete < total )); then
+  echo "{\"followup_message\": \"[workflow] Task incomplete (${complete}/${total}). Read plan.md and continue.\"}"
+fi
+exit 0
+```
+
+---
+
+## Context Engineering Principles
+
+Borrowed from [planning-with-files](https://github.com/OthmanAdi/planning-with-files) (Manus-style):
+
+### Core Principle
+
+```text
+Context Window = RAM (volatile, limited)
+Filesystem = Disk (persistent, unlimited)
+
+→ Anything important gets written to disk.
+```
+
+### 3-Strike Error Protocol
+
+```text
+ATTEMPT 1: Diagnose & Fix
+  → Read error carefully
+  → Identify root cause
+  → Apply targeted fix
+  → Log to progress.md
+
+ATTEMPT 2: Alternative Approach
+  → Same error? Try different method
+  → Different tool? Different library?
+  → NEVER repeat exact same failing action
+  → Log to findings.md
+
+ATTEMPT 3: Broader Rethink
+  → Question assumptions
+  → Search for solutions
+  → Consider updating the plan
+
+AFTER 3 FAILURES: Escalate to User
+  → Explain what you tried
+  → Share the specific error
+  → Ask for guidance
+```
+
+**Key rule:**
+```text
+if action_failed:
+    next_action != same_action  # Never repeat exact failing action
+```
+
+### 2-Action Rule
+
+> "After every 2 view/browser/search operations, IMMEDIATELY save key findings to findings.md"
+
+**Why:** Visual/multimodal content doesn't persist in context. Must be captured as text immediately.
+
+### Read vs Write Decision Matrix
+
+| Situation | Action | Reason |
+|-----------|--------|--------|
+| Just wrote a file | DON'T read | Content still in context |
+| Viewed image/PDF | Write findings NOW | Multimodal → text before lost |
+| Browser returned data | Write to file | Screenshots don't persist |
+| Starting new phase | Read plan/findings | Re-orient if context stale |
+| Error occurred | Read relevant file | Need current state to fix |
+| Resuming after gap | Read all planning files | Recover state |
+
+### 5-Question Reboot Test
+
+If you can answer these, your context management is solid:
+
+| Question | Answer Source |
+|----------|---------------|
+| Where am I? | Current phase in plan.md |
+| Where am I going? | Remaining phases in plan.md |
+| What's the goal? | Goal statement in design.md |
+| What have I learned? | findings.md |
+| What have I done? | progress.md |
+
+### Anti-Patterns
+
+| Don't | Do Instead |
+|-------|------------|
+| State goals once and forget | Re-read plan before decisions |
+| Hide errors and retry silently | Log errors to progress.md |
+| Stuff everything in context | Store large content in files |
+| Start executing immediately | Create plan file FIRST |
+| Repeat failed actions | Track attempts, mutate approach |
+
+---
+
+## Templates
+
+### findings.md Template
+
+```markdown
+# Findings & Decisions
+
+## Requirements
+<!-- Captured from user request -->
+-
+
+## Research Findings
+<!-- Key discoveries during exploration -->
+<!-- Update after every 2 view/browser/search operations -->
+-
+
+## Technical Decisions
+<!-- Decisions made with rationale -->
+| Decision | Rationale |
+|----------|-----------|
+|          |           |
+
+## Issues Encountered
+<!-- Errors and how they were resolved -->
+| Issue | Resolution |
+|-------|------------|
+|       |            |
+
+## Resources
+<!-- URLs, file paths, API references -->
+-
+```
+
+### progress.md Template
+
+```markdown
+# Progress Log
+
+## Session: [DATE]
+
+### Phase 1: [Title]
+- **Status:** in_progress
+- **Started:** [timestamp]
+- Actions taken:
+  -
+- Files created/modified:
+  -
+
+### Phase 2: [Title]
+- **Status:** pending
+- Actions taken:
+  -
+- Files created/modified:
+  -
+
+## Test Results
+| Test | Input | Expected | Actual | Status |
+|------|-------|----------|--------|--------|
+|      |       |          |        |        |
+
+## Error Log
+<!-- Keep ALL errors - they help avoid repetition -->
+| Timestamp | Error | Attempt | Resolution |
+|-----------|-------|---------|------------|
+|           |       | 1       |            |
+
+## 5-Question Reboot Check
+<!-- If you can answer these, context is solid -->
+| Question | Answer |
+|----------|--------|
+| Where am I? | Phase X |
+| Where am I going? | Remaining phases |
+| What's the goal? | [goal statement] |
+| What have I learned? | See findings.md |
+| What have I done? | See above |
+```
