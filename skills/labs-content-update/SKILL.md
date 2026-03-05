@@ -93,13 +93,16 @@ gh run watch <run-id> --repo <repo>
 
 ```bash
 # Read settings.json for IDs and enabled status
-cat workspace/repos/labs-content/settings.json | jq '.experiments'
+gh api repos/infinity-microsoft/labs-content/contents/settings.json \
+  --jq '.content' | base64 -d | jq '.experiments'
 
-# Quick summary: read all metadata.json files
-for dir in workspace/repos/labs-content/content/original/*/; do
-  name=$(basename "$dir")
-  jq -r --arg alias "$name" '"\(.name) | \(.type) | \(.status)"' "$dir/metadata.json" 2>/dev/null
-done
+# List all experiment directories
+gh api repos/infinity-microsoft/labs-content/contents/content/original \
+  --jq '.[].name'
+
+# Read a specific experiment's metadata
+gh api repos/infinity-microsoft/labs-content/contents/content/original/{alias}/metadata.json \
+  --jq '.content' | base64 -d | jq .
 ```
 
 #### List View Format
@@ -123,10 +126,12 @@ Summary: N experiments (X enabled, Y disabled)
 
 ```bash
 # Read metadata.json
-cat workspace/repos/labs-content/content/original/{alias}/metadata.json | jq .
+gh api repos/infinity-microsoft/labs-content/contents/content/original/{alias}/metadata.json \
+  --jq '.content' | base64 -d | jq .
 
 # Read landing page
-cat workspace/repos/labs-content/content/original/{alias}/landing-page.md
+gh api repos/infinity-microsoft/labs-content/contents/content/original/{alias}/landing-page.md \
+  --jq '.content' | base64 -d
 ```
 
 #### Detail View Format
@@ -182,9 +187,9 @@ Landing Page:
 #### Step 1: Collect All Recent Release Branches
 
 ```bash
-# Get all release branches from the last 30 days
-git fetch origin
-git branch -r | grep release | tail -10
+# Get all release branches
+gh api repos/infinity-microsoft/labs-content/branches --paginate \
+  --jq '.[] | select(.name | startswith("release/")) | .name' | tail -10
 ```
 
 #### Step 2: For Each Release Branch, Build Complete Tracking Chain
@@ -377,7 +382,8 @@ Update both `config.schema.json` and `metadata.schema.json`, then update affecte
 
 ```bash
 # Find latest release branch
-git fetch origin && git branch -r | grep release | tail -1
+gh api repos/infinity-microsoft/labs-content/branches --paginate \
+  --jq '.[] | select(.name | startswith("release/")) | .name' | tail -1
 
 # Trigger workflows
 gh workflow run "Publish: Staging" --repo infinity-microsoft/labs-content --ref release/YYYY-MM-DD-HHMMSS
@@ -436,7 +442,8 @@ npm run test:update-integration-baselines   # Update baselines
 **Fix**: Find the latest release branch and run Publish on that branch:
 
 ```bash
-git fetch origin && git branch -r | grep release | tail -1
+gh api repos/infinity-microsoft/labs-content/branches --paginate \
+  --jq '.[] | select(.name | startswith("release/")) | .name' | tail -1
 gh workflow run "Publish: Staging" --repo infinity-microsoft/labs-content --ref release/YYYY-MM-DD-HHMMSS
 ```
 
