@@ -222,8 +222,9 @@ User: "I want to add a new feature"
          v
 +-------------------------------------------------------------------------+
 | Stage 0: INITIALIZE                                                     |
-| - SessionStart hook loads memory-bank                                   |
-| - Detect development task -> trigger using-skills                       |
+| - SessionStart hook loads memory-bank (context)                         |
+| - Claude receives user message                                          |
+| - using-skills enforces skill check before any action (1% = MUST)       |
 +-------------------------------------------------------------------------+
          |
          v
