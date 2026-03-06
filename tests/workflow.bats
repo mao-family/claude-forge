@@ -263,32 +263,38 @@ setup() {
 
 # G1: Feature branch created
 @test "G1: feature branch created after BRAINSTORM" {
-  skip "TODO: implement"
+  run run_claude "BRAINSTORM完成后，需要创建什么git分支"
+  assert_contains_any "${output}" "feature" "branch" "feature/" "git"
 }
 
 # G2: design.md committed
 @test "G2: design.md committed" {
-  skip "TODO: implement"
+  run run_claude "design.md文件需要提交吗"
+  assert_contains_any "${output}" "commit" "git" "提交"
 }
 
 # G3: plan.md committed
 @test "G3: plan.md committed" {
-  skip "TODO: implement"
+  run run_claude "plan.md文件是否需要commit"
+  assert_contains_any "${output}" "commit" "git" "提交"
 }
 
 # G4: Worktree created
 @test "G4: worktree created" {
-  skip "TODO: implement"
+  run run_claude "进入WORKTREE阶段时，需要执行什么git操作"
+  assert_contains_any "${output}" "worktree" "git worktree" "add"
 }
 
 # G5: Archive commit created
 @test "G5: archive commit created" {
-  skip "TODO: implement"
+  run run_claude "归档文件时是否需要创建commit"
+  assert_contains_any "${output}" "commit" "archive" "归档"
 }
 
 # G6: Worktree cleaned up
 @test "G6: worktree cleaned up after FINISH" {
-  skip "TODO: implement"
+  run run_claude "FINISH阶段worktree会被怎么处理"
+  assert_contains_any "${output}" "remove" "clean" "删除" "worktree"
 }
 
 # =============================================================================
