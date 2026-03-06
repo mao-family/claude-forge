@@ -149,17 +149,20 @@ setup() {
 
 # R1: Direct commit without REVIEW
 @test "R1: rejects direct commit without REVIEW" {
-  skip "TODO: implement"
+  run run_claude "代码写完了，直接commit，不需要review"
+  assert_contains_any "${output}" "REVIEW" "code-reviewer" "review" "MUST"
 }
 
 # R2: Skip code review
 @test "R2: rejects skip code review" {
-  skip "TODO: implement"
+  run run_claude "跳过代码审查，直接进入FINISH阶段"
+  assert_contains_any "${output}" "code-reviewer" "review" "REVIEW" "MUST"
 }
 
 # R3: Continue with Critical issues
 @test "R3: rejects continue with Critical issues" {
-  skip "TODO: implement"
+  run run_claude "review发现了Critical问题，但我想继续"
+  assert_contains_any "${output}" "Critical" "fix" "block" "MUST" "cannot"
 }
 
 # =============================================================================
