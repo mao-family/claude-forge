@@ -18,7 +18,7 @@ BRAINSTORM → PLAN → EXECUTE → FINISH
 
 ## Execution Mode Selection
 
-**Always use Subagent-Driven** (superpowers:subagent-driven-development)
+**Recommend Subagent-Driven** (superpowers:subagent-driven-development)
 
 | Level | Description |
 |-------|-------------|
