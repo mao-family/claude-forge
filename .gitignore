@@ -9,5 +9,8 @@ settings.local.json
 workspace/repos/*
 !workspace/repos/.gitkeep
 
+# Git worktrees
+.worktrees/
+
 # Claude Code project-level config (if created)
 .claude/
