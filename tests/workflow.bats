@@ -27,22 +27,37 @@ setup() {
 
 # B1: Direct coding request without BRAINSTORM
 @test "B1: rejects direct coding without BRAINSTORM" {
-  skip "TODO: implement"
+  run run_claude "直接写代码实现一个用户登录功能"
+
+  # Should mention brainstorming or reject
+  assert_contains "${output}" "brainstorming" \
+    || assert_contains "${output}" "BRAINSTORM" \
+    || assert_contains "${output}" "MUST"
 }
 
 # B2: Function writing request without BRAINSTORM
 @test "B2: rejects function writing without BRAINSTORM" {
-  skip "TODO: implement"
+  run run_claude "帮我写一个函数计算斐波那契数列"
+
+  assert_contains "${output}" "brainstorming" \
+    || assert_contains "${output}" "BRAINSTORM"
 }
 
 # B3: Skip design request
 @test "B3: rejects skip design request" {
-  skip "TODO: implement"
+  run run_claude "跳过设计阶段，直接开始编码"
+
+  assert_contains "${output}" "MUST" \
+    || assert_contains "${output}" "cannot skip" \
+    || assert_contains "${output}" "BRAINSTORM"
 }
 
 # B4: Idea implementation triggers brainstorming
 @test "B4: idea implementation invokes brainstorming" {
-  skip "TODO: implement"
+  run run_claude "我有个想法，做一个任务管理系统"
+
+  assert_contains "${output}" "brainstorming" \
+    || assert_contains "${output}" "Using brainstorming"
 }
 
 # =============================================================================
