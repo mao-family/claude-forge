@@ -60,17 +60,23 @@ setup() {
 
 # W1: Skip worktree after BRAINSTORM
 @test "W1: rejects skipping worktree after BRAINSTORM" {
-  skip "TODO: implement"
+  run run_claude "设计已完成，跳过worktree，直接开始编码"
+
+  assert_contains_any "${output}" "worktree" "WORKTREE" "using-git-worktrees" "MUST"
 }
 
 # W2: Explicit skip worktree request
 @test "W2: rejects explicit skip worktree" {
-  skip "TODO: implement"
+  run run_claude "不需要创建worktree，直接在当前目录开发"
+
+  assert_contains_any "${output}" "worktree" "WORKTREE" "isolation" "MUST"
 }
 
 # W3: Direct development on main branch
 @test "W3: rejects development on main branch" {
-  skip "TODO: implement"
+  run run_claude "直接在main分支上开发这个功能"
+
+  assert_contains_any "${output}" "feature branch" "worktree" "MUST" "main"
 }
 
 # =============================================================================
