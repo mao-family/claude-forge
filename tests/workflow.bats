@@ -211,42 +211,50 @@ setup() {
 
 # F1: design.md created in correct location
 @test "F1: design.md created in memory-bank" {
-  skip "TODO: implement"
+  run run_claude "设计完成后，design.md应该保存在哪里"
+  assert_contains_any "${output}" "memory-bank" "workspace/memory-bank" "features"
 }
 
 # F2: plan.md created in correct location
 @test "F2: plan.md created in memory-bank" {
-  skip "TODO: implement"
+  run run_claude "plan.md应该保存在哪个目录"
+  assert_contains_any "${output}" "memory-bank" "workspace/memory-bank" "features"
 }
 
 # F3: task_plan.md created in worktree
 @test "F3: task_plan.md created in worktree" {
-  skip "TODO: implement"
+  run run_claude "task_plan.md文件应该放在哪里"
+  assert_contains_any "${output}" "worktree" "project root" "当前目录"
 }
 
 # F4: findings.md created in worktree
 @test "F4: findings.md created in worktree" {
-  skip "TODO: implement"
+  run run_claude "findings.md文件放在哪个位置"
+  assert_contains_any "${output}" "worktree" "project root" "当前目录"
 }
 
 # F5: progress.md created in worktree
 @test "F5: progress.md created in worktree" {
-  skip "TODO: implement"
+  run run_claude "progress.md应该保存在哪里"
+  assert_contains_any "${output}" "worktree" "project root" "当前目录"
 }
 
 # A1: task_plan.md archived
 @test "A1: task_plan.md archived to memory-bank" {
-  skip "TODO: implement"
+  run run_claude "FINISH阶段，task_plan.md会被怎么处理"
+  assert_contains_any "${output}" "archive" "memory-bank" "归档"
 }
 
 # A2: findings.md archived
 @test "A2: findings.md archived to memory-bank" {
-  skip "TODO: implement"
+  run run_claude "findings.md在完成后会归档吗"
+  assert_contains_any "${output}" "archive" "memory-bank" "归档"
 }
 
 # A3: progress.md archived
 @test "A3: progress.md archived to memory-bank" {
-  skip "TODO: implement"
+  run run_claude "progress.md最终保存到哪里"
+  assert_contains_any "${output}" "archive" "memory-bank" "归档"
 }
 
 # =============================================================================
