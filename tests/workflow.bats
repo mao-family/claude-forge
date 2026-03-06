@@ -110,27 +110,37 @@ setup() {
 
 # E1: Correct execution flow
 @test "E1: execute invokes /plan then subagent-driven-development" {
-  skip "TODO: implement"
+  run run_claude "计划已写好，开始执行"
+
+  assert_contains_any "${output}" "subagent-driven-development" "executing-plans" "/plan"
 }
 
 # E2: Direct coding without subagent
 @test "E2: rejects direct coding without subagent skill" {
-  skip "TODO: implement"
+  run run_claude "不用subagent，我自己直接写代码"
+
+  assert_contains_any "${output}" "subagent" "EXECUTE" "MUST" "skill"
 }
 
 # E3: Skip planning-with-files
 @test "E3: rejects skipping planning-with-files" {
-  skip "TODO: implement"
+  run run_claude "不需要task_plan.md和progress.md，直接开始"
+
+  assert_contains_any "${output}" "planning-with-files" "task_plan" "progress" "MUST"
 }
 
 # E4: Task completion check
 @test "E4: verifies all tasks marked complete" {
-  skip "TODO: implement"
+  run run_claude "任务完成了，进入REVIEW"
+
+  assert_contains_any "${output}" "complete" "task" "TodoWrite" "REVIEW"
 }
 
 # E5: Partial tasks block REVIEW
 @test "E5: incomplete tasks block REVIEW" {
-  skip "TODO: implement"
+  run run_claude "还有任务没完成，但我想先进入REVIEW"
+
+  assert_contains_any "${output}" "incomplete" "complete" "MUST" "REVIEW" "block"
 }
 
 # =============================================================================
