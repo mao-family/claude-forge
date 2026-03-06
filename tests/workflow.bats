@@ -85,17 +85,23 @@ setup() {
 
 # P1: No plan, direct coding
 @test "P1: rejects coding without plan" {
-  skip "TODO: implement"
+  run run_claude "worktree已创建，直接开始编码，不需要计划"
+
+  assert_contains_any "${output}" "plan" "PLAN" "writing-plans" "MUST"
 }
 
 # P2: Skip plan stage
 @test "P2: rejects skip plan stage" {
-  skip "TODO: implement"
+  run run_claude "跳过计划阶段，我已经知道怎么做了"
+
+  assert_contains_any "${output}" "plan" "PLAN" "writing-plans" "MUST"
 }
 
 # P3: Start implementation without plan.md
 @test "P3: rejects implementation without plan.md" {
-  skip "TODO: implement"
+  run run_claude "开始实现，虽然还没写plan.md"
+
+  assert_contains_any "${output}" "plan.md" "plan" "PLAN" "writing-plans" "MUST"
 }
 
 # =============================================================================
