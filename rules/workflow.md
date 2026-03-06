@@ -14,7 +14,14 @@ BRAINSTORM → PLAN → EXECUTE → FINISH
 
 1. Run `/plan` to initialize planning-with-files
 2. This creates: `task_plan.md`, `findings.md`, `progress.md`
-3. Then proceed with `subagent-driven-development`
+3. Ask user: **Supervised or Autonomous?**
+
+## Execution Modes
+
+| Mode | When to Use | How to Start |
+|------|-------------|--------------|
+| **Supervised** | User available, wants to review progress | Proceed with `subagent-driven-development` |
+| **Autonomous** | User wants to walk away | `/ralph-loop "Execute plan.md" --max-iterations 50 --completion-promise "ALL_TASKS_COMPLETE"` |
 
 ## Checkpoint
 
