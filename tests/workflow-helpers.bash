@@ -64,10 +64,10 @@ setup_test_project() {
   local dir="/tmp/workflow-test-${name}-$$"
   mkdir -p "${dir}"
   cd "${dir}" || return 1
-  git init
+  git init > /dev/null 2>&1
   echo "# Test Project" > README.md
-  git add README.md
-  git commit -m "init"
+  git add README.md > /dev/null 2>&1
+  git commit -m "init" > /dev/null 2>&1
   echo "${dir}"
 }
 
