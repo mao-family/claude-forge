@@ -60,8 +60,39 @@ Located in `agents/`, specialized sub-agents for specific tasks or domains:
 
 Located in `rules/`, coding standards auto-loaded every session:
 
-- **shell.md** - Shell script style guide
-- **docs-sync.md** - Keep documentation in sync
+```text
+rules/
+├── common/           # Language-agnostic rules
+│   ├── coding-style.md
+│   ├── docs-sync.md
+│   ├── performance.md
+│   ├── security.md
+│   ├── using-lint.md
+│   ├── workflow.md
+│   └── writing-docs.md
+├── shell/            # Shell script rules
+│   └── coding-style.md
+├── typescript/       # TypeScript/JavaScript rules
+│   ├── coding-style.md
+│   ├── hooks.md
+│   ├── patterns.md
+│   ├── security.md
+│   └── testing.md
+├── python/           # Python rules
+│   ├── coding-style.md
+│   ├── hooks.md
+│   ├── patterns.md
+│   ├── security.md
+│   └── testing.md
+└── swift/            # Swift rules
+    ├── coding-style.md
+    ├── hooks.md
+    ├── patterns.md
+    ├── security.md
+    └── testing.md
+```
+
+Language-specific rules extend `common/` rules with language-specific content.
 
 ### Scripts
 

@@ -61,4 +61,4 @@ BRAINSTORM → WORKTREE → PLAN → EXECUTE → REVIEW → FINISH
 
 ## Related Documentation
 
-See [memory-bank/workflow.md](../memory-bank/workflow.md) for detailed stage descriptions.
+See [memory-bank/workflow.md](../../memory-bank/workflow.md) for detailed stage descriptions.

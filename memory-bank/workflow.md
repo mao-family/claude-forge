@@ -251,5 +251,5 @@ If user decides not to continue:
 
 | Document | Content |
 |----------|---------|
-| [../rules/workflow.md](../rules/workflow.md) | Mandatory rules and gates |
+| [../rules/common/workflow.md](../rules/common/workflow.md) | Mandatory rules and gates |
 | [architecture.md](architecture.md) | System architecture |

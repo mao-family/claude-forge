@@ -10,7 +10,7 @@ Personal AI digital worker / AI clone powered by Claude Code.
 BRAINSTORM → WORKTREE → PLAN → EXECUTE → REVIEW → FINISH
 ```
 
-See [rules/workflow.md](rules/workflow.md) for constraints, [memory-bank/workflow.md](memory-bank/workflow.md) for details.
+See [rules/common/workflow.md](rules/common/workflow.md) for constraints, [memory-bank/workflow.md](memory-bank/workflow.md) for details.
 
 ## Core Principles
 
@@ -55,6 +55,11 @@ https://github.com/mao-family/claude-me
 ├── agents/                  # Specialized sub-agents
 ├── hooks/                   # Hook configuration (hooks.json)
 ├── rules/                   # Coding standards (auto-loaded)
+│   ├── common/              # Language-agnostic rules
+│   ├── shell/               # Shell script rules
+│   ├── typescript/          # TypeScript/JavaScript rules
+│   ├── python/              # Python rules
+│   └── swift/               # Swift rules
 ├── scripts/                 # Utility scripts
 │   ├── hooks/               # Hook implementation scripts
 │   └── lint/                # Lint helper scripts

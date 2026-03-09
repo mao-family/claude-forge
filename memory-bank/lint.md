@@ -76,7 +76,7 @@ Shell script formatter. Configuration in `.editorconfig`:
 
 **Pre-commit args**: `-i 2 -ci -sr -bn -w`
 
-For detailed shell style guidance, see [rules/shell.md](../rules/shell.md).
+For detailed shell style guidance, see [rules/shell/coding-style.md](../rules/shell/coding-style.md).
 
 ## Markdown Checks
 
@@ -157,4 +157,4 @@ bun run test            # Bats tests
 
 | Document | Content |
 |----------|---------|
-| [rules/shell.md](../rules/shell.md) | Shell script style guide |
+| [rules/shell/coding-style.md](../rules/shell/coding-style.md) | Shell script style guide |
