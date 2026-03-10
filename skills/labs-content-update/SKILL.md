@@ -459,7 +459,7 @@ Update both `config.schema.json` and `metadata.schema.json`, then update affecte
 
 ### Publishing
 
-*_CRITICAL: Use release/_ branch, NOT main**
+**CRITICAL: Use `release/*` branch, NOT main**
 
 ```bash
 # Find latest release branch
@@ -520,13 +520,7 @@ npm run test:update-integration-baselines   # Update baselines
 
 **Cause**: Publish workflow ran on `main` branch, but `dist/` only exists on `release/*` branches.
 
-**Fix**: Find the latest release branch and run Publish on that branch:
-
-```bash
-gh api repos/infinity-microsoft/labs-content/branches --paginate \
-  --jq '.[] | select(.name | startswith("release/")) | .name' | tail -1
-gh workflow run "Publish: Staging" --repo infinity-microsoft/labs-content --ref release/YYYY-MM-DD-HHMMSS
-```
+**Fix**: Find the latest release branch and run Publish on that branch. See [Publishing](#publishing) for commands.
 
 ### Production workflow fails when pushing to studio
 
@@ -541,10 +535,7 @@ fatal: could not read Username for 'https://github.com': No such device or addre
 
 **Fix Options**:
 
-1. **Re-trigger workflow** (may fail again if auth issue persists):
-   ```bash
-   gh workflow run "Publish: Production" --repo infinity-microsoft/labs-content --ref release/YYYY-MM-DD-HHMMSS
-   ```
+1. **Re-trigger workflow** (may fail again if auth issue persists). See [Publishing](#publishing) for commands.
 
 2. **Manually create studio PR**:
 
