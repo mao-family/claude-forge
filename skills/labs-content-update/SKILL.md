@@ -336,6 +336,19 @@ Summary: 1 complete, 1 pending
 
 ### Graduate Experiment
 
+**MUST confirm with user before modifying:**
+
+1. Show current status:
+
+   ```bash
+   gh api repos/infinity-microsoft/labs-content/contents/content/original/{alias}/metadata.json \
+     --jq '.content' | base64 -d | jq '.status'
+   ```
+
+2. Ask user to confirm: "将 {experiment} 的 status 从 `{current_status}` 改为 `GRADUATED`，确认？"
+
+3. Only proceed after user confirms
+
 Set `status: "GRADUATED"` in `metadata.json`. The experiment will be marked as graduated from Labs.
 
 ### Disable/Enable Experiment
