@@ -255,7 +255,25 @@ gh pr list --repo infinity-microsoft/studio --state all \
   --head "copilotlabs-production/2026-02-27" --json number,state
 ```
 
-#### Step 6: Determine Status for Each Update
+#### Step 6: Verify PR Source Release Branch
+
+**CRITICAL: A merged PR does not mean the update is complete. You MUST verify which release branch created each PR.**
+
+```bash
+# 1. Find the workflow run ID from the PR body or search
+gh pr view <pr-number> --repo <repo> --json body --jq '.body' | grep -o 'actions/runs/[0-9]*'
+
+# 2. Check which release branch that workflow used
+gh run view <workflow-id> --repo infinity-microsoft/labs-content --json headBranch --jq '.headBranch'
+
+# 3. Check if your target commit is in that release branch
+gh api "repos/infinity-microsoft/labs-content/commits" -X GET -f sha="<release-branch>" \
+  --jq '.[0:10] | .[] | "\(.sha[0:7]) \(.commit.message | split("\n")[0])"'
+```
+
+**Example**: If ACTION_LINK commit is `20a7ac3` (2026-03-02) but studio PR was created from `release/2026-02-26-091642`, then ACTION_LINK is NOT in studio - even if the PR is merged.
+
+#### Step 7: Determine Status for Each Update
 
 | Check | Command | Status |
 |-------|---------|--------|
@@ -264,6 +282,7 @@ gh pr list --repo infinity-microsoft/studio --state all \
 | Production workflow | `gh run list --workflow "Publish: Production"` | success/failure |
 | Production picasso PR | From workflow log or branch search | Open/Merged/Missing |
 | Production studio PR | From workflow log or branch search | Open/Merged/**Missing if workflow failed** |
+| **PR source verification** | Check workflow headBranch contains target commits | **Required** |
 
 #### Progress Report Format
 
@@ -274,37 +293,41 @@ gh pr list --repo infinity-microsoft/studio --state all \
 
 Update 1: [Description from PR title]
 Release: release/2026-02-26-091642
+Commits: abc1234 (Graduate Mico)
 Status: ✅ Complete
 
-┌──────────────────────┬────────┬──────────────────┐
-│ Stage                │ PR     │ Status           │
-├──────────────────────┼────────┼──────────────────┤
-│ labs-content         │ #39    │ ✅ Merged        │
-│ picasso (staging)    │ #141   │ ✅ Merged        │
-│ picasso (production) │ #143   │ ✅ Merged -> Live│
-│ studio               │ #23000 │ ✅ Merged        │
-└──────────────────────┴────────┴──────────────────┘
+┌──────────────────────┬────────┬─────────────────────┬─────────────────────────┐
+│ Stage                │ PR     │ Status              │ Source Release          │
+├──────────────────────┼────────┼─────────────────────┼─────────────────────────┤
+│ labs-content         │ #39    │ ✅ Merged           │ -                       │
+│ picasso (staging)    │ #141   │ ✅ Merged           │ release/2026-02-26-...  │
+│ picasso (production) │ #143   │ ✅ Merged -> Live   │ release/2026-02-26-...  │
+│ studio               │ #23000 │ ✅ Merged           │ release/2026-02-26-...  │
+└──────────────────────┴────────┴─────────────────────┴─────────────────────────┘
 
 ---
 
 Update 2: [Description from PR title]
 Release: release/2026-03-02-155350
-Status: ⏳ In Progress (Step 17/19)
+Commits: def5678 (ACTION_LINK), ghi9012 (other change)
+Status: ⚠️ Partial (picasso done, studio pending)
 
-┌──────────────────────┬────────┬──────────────────┐
-│ Stage                │ PR     │ Status           │
-├──────────────────────┼────────┼──────────────────┤
-│ labs-content         │ #40    │ ✅ Merged        │
-│ picasso (staging)    │ #147   │ ✅ Merged        │
-│ picasso (production) │ #156   │ ⏳ Open          │
-│ studio               │ #23024 │ ⏳ Open          │
-└──────────────────────┴────────┴──────────────────┘
+┌──────────────────────┬────────┬─────────────────────┬─────────────────────────┐
+│ Stage                │ PR     │ Status              │ Source Release          │
+├──────────────────────┼────────┼─────────────────────┼─────────────────────────┤
+│ labs-content         │ #40    │ ✅ Merged           │ -                       │
+│ picasso (staging)    │ #147   │ ✅ Merged           │ release/2026-03-02-...  │
+│ picasso (production) │ #156   │ ✅ Merged           │ release/2026-03-02-...  │
+│ studio               │ -      │ ❌ Missing          │ Workflow failed         │
+└──────────────────────┴────────┴─────────────────────┴─────────────────────────┘
 
-Next: Merge picasso PR #156 -> goes live immediately
+⚠️ WARNING: studio PR #23024 exists but from OLDER release (2026-02-26), does NOT contain commits from this update!
+
+Next: Re-trigger Production workflow or manually create studio PR
 
 ---
 
-Summary: 1 complete, 1 pending
+Summary: 1 complete, 1 partial (studio sync needed)
 ```
 
 ### Add New Experiment
