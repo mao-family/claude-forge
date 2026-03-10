@@ -346,7 +346,7 @@ Summary: 1 complete, 1 pending
    ```
 
 2. **Ask user for graduated description** (required):
-   > "请提供 graduated 描述文案，例如：'Now available in Voice mode on desktop and mobile'"
+   > "Please provide the graduated description, e.g., 'Now available in Voice mode on desktop and mobile'"
 
 3. Confirm with user before proceeding
 
